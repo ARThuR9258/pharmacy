@@ -1,0 +1,129 @@
+{% extends 'shared/base.html' %}
+{% load widget_tweaks %}
+{% block title %}ویرایش دارو{% endblock %}
+{% block content %}
+<div class="card p-5 shadow-lg border-0" style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(233, 236, 239, 0.7)); backdrop-filter: blur(10px); border-radius: 20px;">
+    <h2 class="text-center mb-5" style="font-size: 2rem; font-weight: bold; color: var(--text-light);">ویرایش دارو</h2>
+
+    <form method="post" class="mb-4">
+        {% csrf_token %}
+        <div class="mb-4 position-relative">
+            <div class="input-group input-group-lg">
+                <span class="input-group-text bg-primary text-white" style="border-radius: 12px 0 0 12px; padding: 12px;">
+                    <i class="fas fa-capsule fa-lg"></i>
+                </span>
+                <label for="id_name" class="floating-label" style="font-size: 1rem; color: #333333;"></label>
+                {{ form.name|add_class:"form-control form-control-lg floating-input"|attr:"placeholder=نام دارو" }}
+            </div>
+        </div>
+
+        <div class="mb-4 position-relative">
+            <div class="input-group input-group-lg">
+                <span class="input-group-text bg-primary text-white" style="border-radius: 12px 0 0 12px; padding: 12px;">
+                    <i class="fas fa-sort-numeric-up-alt fa-lg"></i>
+                </span>
+                <label for="id_number" class="floating-label" style="font-size: 1rem; color: #333333;"></label>
+                {{ form.number|add_class:"form-control form-control-lg floating-input"|attr:"placeholder=تعداد" }}
+            </div>
+        </div>
+
+        <div class="mb-4 position-relative">
+            <div class="input-group input-group-lg">
+                <span class="input-group-text bg-primary text-white" style="border-radius: 12px 0 0 12px; padding: 12px;">
+                    <i class="fas fa-tags fa-lg"></i>
+                </span>
+                <label for="id_category" class="floating-label" style="font-size: 1rem; color: #333333;"></label>
+                {{ form.category|add_class:"form-control form-control-lg floating-input"|attr:"placeholder=دسته‌بندی" }}
+            </div>
+        </div>
+
+        <div class="mb-4 position-relative">
+            <div class="input-group input-group-lg">
+                <span class="input-group-text bg-primary text-white" style="border-radius: 12px 0 0 12px; padding: 12px;">
+                    <i class="fas fa-calendar-alt fa-lg"></i>
+                </span>
+                <label for="id_expiration_date" class="floating-label" style="font-size: 1rem; color: #333333;"></label>
+                {{ form.expiration_date|add_class:"form-control form-control-lg floating-input"|attr:"placeholder=تاریخ انقضا" }}
+            </div>
+        </div>
+
+        <div class="mb-4 position-relative">
+            <div class="input-group input-group-lg">
+                <span class="input-group-text bg-primary text-white" style="border-radius: 12px 0 0 12px; padding: 12px;">
+                    <i class="fas fa-align-left fa-lg"></i>
+                </span>
+                <label for="id_description" class="floating-label" style="font-size: 1rem; color: #333333;"></label>
+                {{ form.description|add_class:"form-control form-control-lg floating-input"|attr:"placeholder=توضیحات" }}
+            </div>
+        </div>
+
+        <div class="mb-4 position-relative">
+            <div class="input-group input-group-lg">
+                <span class="input-group-text bg-primary text-white" style="border-radius: 12px 0 0 12px; padding: 12px;">
+                    <i class="fas fa-calendar-check fa-lg"></i>
+                </span>
+                <label for="id_date_in_warehouse" class="floating-label" style="font-size: 1rem; color: #333333;"></label>
+                {{ form.date_in_warehouse|add_class:"form-control form-control-lg floating-input"|attr:"placeholder=تاریخ ورود به انبار" }}
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-success btn-lg px-5" style="font-size: 1.2rem; border-radius: 12px; padding: 12px 30px; background: linear-gradient(90deg, #28a745, #20c997); border: none; transition: all 0.3s ease;">
+                <i class="fas fa-save me-2"></i>ذخیره تغییرات
+            </button>
+            <a href="/search-drug" class="btn btn-secondary btn-lg px-5 ms-3" style="font-size: 1.2rem; border-radius: 12px; padding: 12px 30px; background: linear-gradient(90deg, #6c757d, #adb5bd); border: none; transition: all 0.3s ease;">
+                <i class="fas fa-arrow-right me-2"></i>بازگشت
+            </a>
+        </div>
+    </form>
+</div>
+
+<style>
+    /* Floating Label Animation */
+    .floating-label {
+        position: absolute;
+        top: 50%;
+        right: 50px;
+        transform: translateY(-50%);
+        transition: all 0.2s ease;
+        pointer-events: none;
+    }
+
+    .form-control:focus + .floating-label,
+    .form-control:not(:placeholder-shown) + .floating-label {
+        top: -10px;
+        right: 40px;
+        font-size: 0.8rem;
+        color: #0d6efd;
+    }
+
+    /* Input Text Color */
+    .form-control {
+        color: #333333 !important; /* Dark gray text for inputs in both themes */
+    }
+
+    .form-control::placeholder {
+        color: #555555 !important; /* Slightly lighter gray for placeholders in both themes */
+    }
+
+    /* Dark Mode Styles */
+    .dark-mode .card {
+        background: linear-gradient(135deg, rgba(45, 55, 72, 0.9), rgba(30, 58, 138, 0.7));
+        color: var(--text-dark);
+    }
+
+    .dark-mode .form-control {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .dark-mode .floating-label {
+        color: #cccccc !important; /* Light gray for labels in dark mode */
+    }
+
+    .dark-mode .form-control:focus + .floating-label,
+    .dark-mode .form-control:not(:placeholder-shown) + .floating-label {
+        color: #8a2be2 !important; /* Purple for labels when active in dark mode */
+    }
+</style>
+{% endblock %}

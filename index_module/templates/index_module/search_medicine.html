@@ -1,0 +1,75 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+{% block title %}جستجوی دارو{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/search_styles.css' %}">
+
+    <h2>جستجوی دارو</h2>
+
+    <form method="get">
+        <div class="search-container">
+            <input type="text" name="medicine_name" value="{{ search_query }}" placeholder="جستجوی دارو...">
+            <button type="submit">
+                <i class="fas fa-search"></i> جستجو
+            </button>
+        </div>
+    </form>
+
+    <div class="add-medicine">
+        <a href="/add-drug">
+            <i class="fas fa-plus"></i> اضافه کردن دارو جدید
+        </a>
+    </div>
+
+    {% if is_empty %}
+    <p class="no-results">دارویی با نام "{{ search_query }}" یافت نشد!</p>
+    {% endif %}
+
+    {% if medicines %}
+    <div class="scrollable-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>نام دارو</th>
+                    <th>تعداد</th>
+                    <th>دسته‌بندی</th>
+                    <th>تاریخ انقضا</th>
+                    <th>توضیحات</th>
+                    <th>تاریخ ورود</th>
+                    <th>عملیات</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for medicine in medicines %}
+                <tr>
+                    <td>{{ medicine.name }}</td>
+                    <td>{{ medicine.number }}</td>
+                    <td>{{ medicine.category }}</td>
+                    <td>{{ medicine.expiration_date }}</td>
+                    <td>{{ medicine.description }}</td>
+                    <td>{{ medicine.date_in_warehouse }}</td>
+                    <td>
+                        <a href="/edit-drug/{{ medicine.id }}"><i class="fas fa-edit"></i> ویرایش</a>
+                        <a href="/delete-drug/{{ medicine.id }}"><i class="fas fa-trash"></i> حذف</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}" class="pagination-button">قبلی</a>
+        {% endif %}
+
+        {% for pageNumber in paginator.page_range %}
+        <a href="?page={{ pageNumber }}" class="pagination-button {% if pageNumber == page_obj.number %}active{% endif %}">{{ pageNumber }}</a>
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="pagination-button">بعدی</a>
+        {% endif %}
+    </div>
+    {% endif %}
+{% endblock %}

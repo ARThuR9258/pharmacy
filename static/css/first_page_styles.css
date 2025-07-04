@@ -1,0 +1,144 @@
+/* Welcome Container Styles */
+.welcome-container {
+    max-width: 650px;
+    margin: 3rem auto;
+    text-align: center;
+    padding: 2.5rem;
+    background: linear-gradient(135deg, #ffffff 0%, #f0f4ff 50%, #e6eaff 100%);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.05);
+    position: relative;
+    overflow: hidden;
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* Decoration Circle */
+.decoration-circle {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    background: rgba(99, 102, 241, 0.1);
+    border-radius: 50%;
+    top: -75px;
+    left: -75px;
+    z-index: 0;
+    filter: blur(20px);
+    animation: pulse 6s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* Title Styles */
+.welcome-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #1e293b;
+    margin-bottom: 1.2rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Text Styles */
+.welcome-text {
+    font-size: 1.2rem;
+    color: #475569;
+    margin-bottom: 2.5rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    position: relative;
+    z-index: 1;
+}
+
+/* Button Group Styles */
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+}
+
+/* Button Styles */
+.welcome-button {
+    padding: 1.2rem 2.5rem;
+    background: linear-gradient(90deg, #6366f1, #8b5cf6, #a855f7);
+    border: none;
+    border-radius: 12px;
+    color: #ffffff;
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3), 0 2px 5px rgba(99, 102, 241, 0.2);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease, transform 0.2s ease;
+}
+
+.welcome-button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s ease, height 0.6s ease;
+}
+
+.welcome-button:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.welcome-button:hover {
+    background: linear-gradient(90deg, #4f46e5, #7c3aed, #9333ea);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4), 0 3px 8px rgba(99, 102, 241, 0.3);
+}
+
+/* Dark Mode Styles */
+.dark-mode .welcome-container {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f172a 100%);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.dark-mode .decoration-circle {
+    background: rgba(147, 197, 253, 0.1);
+}
+
+.dark-mode .welcome-title {
+    color: #e2e8f0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.dark-mode .welcome-text {
+    color: #94a3b8;
+}
+
+.dark-mode .welcome-button {
+    background: linear-gradient(90deg, #93c5fd, #60a5fa, #38bdf8);
+    box-shadow: 0 4px 15px rgba(147, 197, 253, 0.3), 0 2px 5px rgba(147, 197, 253, 0.2);
+}
+
+.dark-mode .welcome-button:hover {
+    background: linear-gradient(90deg, #7cc2fc, #3b82f6, #22c5e1);
+    box-shadow: 0 6px 20px rgba(147, 197, 253, 0.4), 0 3px 8px rgba(147, 197, 253, 0.3);
+}
+
+.dark-mode .welcome-button::before {
+    background: rgba(255, 255, 255, 0.3);
+}

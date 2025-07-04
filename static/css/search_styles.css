@@ -1,0 +1,291 @@
+/* General Styles */
+h2 {
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: #1e293b;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.search-container {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.search-container input {
+    flex: 1;
+    padding: 0.9rem 1.2rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #1e293b;
+    background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+    transition: border-color 0.3s ease;
+}
+
+.search-container input:focus {
+    border-color: #6366f1;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+.search-container button {
+    padding: 0.9rem 1.5rem;
+    background: linear-gradient(90deg, #6366f1, #8b5cf6);
+    border: none;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.search-container button:hover {
+    background: linear-gradient(90deg, #4f46e5, #7c3aed);
+}
+
+.add-medicine {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.add-medicine a {
+    color: #6366f1;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    transition: color 0.3s ease, background 0.3s ease;
+}
+
+.add-medicine a:hover {
+    color: #4f46e5;
+    background: rgba(99, 102, 241, 0.1);
+}
+
+.no-results {
+    text-align: center;
+    color: #dc2626;
+    font-size: 1.2rem;
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background: rgba(220, 38, 38, 0.1);
+    border-radius: 6px;
+}
+
+/* Scrollable Table Styles */
+.scrollable-table {
+    max-height: 400px;
+    overflow-y: auto;
+    margin-top: 1rem;
+    background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    padding: 1rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+th, td {
+    padding: 0.9rem 1.2rem;
+    text-align: center;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+th {
+    background: linear-gradient(90deg, #f3f4f6 0%, #e5e7eb 100%);
+    font-weight: 600;
+    color: #1e293b;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+td {
+    color: #374151;
+}
+
+td a {
+    color: #6366f1;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    transition: color 0.3s ease, background 0.3s ease;
+}
+
+td a:hover {
+    color: #4f46e5;
+    background: rgba(99, 102, 241, 0.1);
+}
+
+/* Pagination Styles */
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.pagination-button {
+    padding: 0.6rem 1rem;
+    background: linear-gradient(90deg, #e0e7ff 0%, #c7d2fe 100%);
+    border: 1px solid #a5b4fc;
+    border-radius: 6px;
+    color: #1e293b;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+
+.pagination-button:hover {
+    background: linear-gradient(90deg, #a5b4fc 0%, #93c5fd 100%);
+    transform: translateY(-1px);
+}
+
+.pagination-button.active {
+    background: linear-gradient(90deg, #6366f1 0%, #8b5cf6 100%);
+    color: #ffffff;
+    border-color: #6b21a8;
+    cursor: default;
+}
+
+.pagination-button.active:hover {
+    background: linear-gradient(90deg, #6366f1 0%, #8b5cf6 100%);
+    transform: none;
+}
+
+/* Dark Mode Styles */
+.dark-mode h2 {
+    color: #e2e8f0;
+}
+
+.dark-mode .search-container input {
+    background: linear-gradient(135deg, #2d2d2d 0%, #1f1f1f 100%);
+    border-color: #4b5563;
+    color: #e2e8f0;
+}
+
+.dark-mode .search-container input:focus {
+    border-color: #93c5fd;
+    box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.2);
+}
+
+.dark-mode .search-container button {
+    background: linear-gradient(90deg, #93c5fd, #60a5fa);
+    color: #1e293b;
+}
+
+.dark-mode .search-container button:hover {
+    background: linear-gradient(90deg, #7cc2fc, #3b82f6);
+}
+
+.dark-mode .add-medicine a {
+    color: #93c5fd;
+}
+
+.dark-mode .add-medicine a:hover {
+    color: #7cc2fc;
+    background: rgba(147, 197, 253, 0.1);
+}
+
+.dark-mode .no-results {
+    color: #f87171;
+    background: rgba(248, 113, 113, 0.1);
+}
+
+.dark-mode .scrollable-table {
+    background: linear-gradient(135deg, #1f1f1f 0%, #2d2d2d 100%);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.dark-mode th {
+    background: linear-gradient(90deg, #374151 0%, #4b5563 100%);
+    color: #e2e8f0;
+}
+
+.dark-mode td {
+    border-bottom-color: #4b5563;
+    color: #94a3b8;
+}
+
+.dark-mode td a {
+    color: #93c5fd;
+}
+
+.dark-mode td a:hover {
+    color: #7cc2fc;
+    background: rgba(147, 197, 253, 0.1);
+}
+
+.dark-mode .pagination-button {
+    background: linear-gradient(90deg, #2d2d2d 0%, #1f1f1f 100%);
+    border-color: #4b5563;
+    color: #e2e8f0;
+}
+
+.dark-mode .pagination-button:hover {
+    background: linear-gradient(90deg, #374151 0%, #4b5563 100%);
+    color: #ffffff;
+}
+
+.dark-mode .pagination-button.active {
+    background: linear-gradient(90deg, #93c5fd 0%, #60a5fa 100%);
+    color: #1e293b;
+    border-color: #38bdf8;
+}
+
+.dark-mode .pagination-button.active:hover {
+    background: linear-gradient(90deg, #93c5fd 0%, #60a5fa 100%);
+    transform: none;
+}
+
+/* Scrollbar Styling */
+.scrollable-table::-webkit-scrollbar {
+    width: 8px;
+}
+
+.scrollable-table::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.scrollable-table::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.scrollable-table::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.dark-mode .scrollable-table::-webkit-scrollbar-track {
+    background: #2d2d2d;
+}
+
+.dark-mode .scrollable-table::-webkit-scrollbar-thumb {
+    background: #666;
+}
+
+.dark-mode .scrollable-table::-webkit-scrollbar-thumb:hover {
+    background: #999;
+}

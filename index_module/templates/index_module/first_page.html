@@ -1,0 +1,16 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+{% block title %}خوش‌آمدید به مدیریت انبار داروخانه{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/first_page_styles.css' %}">
+
+    <div class="welcome-container">
+        <div class="decoration-circle"></div>
+        <h1 class="welcome-title">خوش‌آمدید به مدیریت انبار داروخانه</h1>
+        <p class="welcome-text">لطفاً یکی از گزینه‌های زیر را انتخاب کنید:</p>
+        <div class="button-group">
+            <a href="/search-drug" class="welcome-button">جستجوی دارو</a>
+            <a href="/add-drug" class="welcome-button">اضافه کردن دارو</a>
+        </div>
+    </div>
+{% endblock %}
