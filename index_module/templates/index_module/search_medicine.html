@@ -2,74 +2,230 @@
 {% load static %}
 {% block title %}جستجوی دارو{% endblock %}
 {% block content %}
-<link rel="stylesheet" href="{% static 'css/search_styles.css' %}">
+<style>
+    .container {
+        max-width: 1200px;
+        margin: 30px auto;
+        background-color: rgba(166, 182, 174, 0.17);
+        padding: 0 15px;
+    }
+    .search-title {
+        text-align: center;
+        color: #000000;
+        font-weight: bold;
+        font-size: 2rem;
+        margin-bottom: 20px;
+    }
+    .search-form-container {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+    .form-group {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .form-control {
+        background-color: #ffffff;
+        color: #2d3748;
+        border: 1px solid #e2e8f0;
+        border-radius: 4px;
+        padding: 10px;
+        font-size: 1.1rem;
+    }
+    .form-control::placeholder {
+        color: #718096;
+        opacity: 1;
+        font-size: 1.1rem;
+    }
+    .btn-primary {
+        background-color: #38a169;
+        color: #ffffff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        font-size: 1rem;
+        cursor: pointer;
+    }
+    .btn-primary:hover {
+        background-color: #2f855a;
+    }
+    .btn-add-drug {
+        display: block;
+        text-align: center;
+        background-color: #3182ce;
+        color: #ffffff;
+        padding: 10px 20px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 1rem;
+        margin: 20px 0;
+    }
+    .btn-add-drug {
+        background-color: rgba(53, 149, 100, 0.59);
+        color: #000000;
+    }
+    .alert-warning {
+        background-color: #fefcbf;
+        color: #744210;
+        padding: 10px;
+        border-radius: 4px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .scrollable-table {
+        overflow-x: auto;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    th, td {
+        padding: 12px 15px;
+        text-align: right;
+        border-bottom: 1px solid #e2e8f0;
+    }
+    th {
+        background-color: #edf2f7;
+        color: #2d3748;
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+    tr:nth-child(even) {
+        background-color: #f7fafc;
+    }
+    tr:hover {
+        background-color: #e6fffa;
+    }
+    .action-links a {
+        color: #3182ce;
+        text-decoration: none;
+        margin: 0 10px;
+        font-size: 0.9rem;
+    }
+    .action-links a:hover {
+        color: #2b6cb0;
+        text-decoration: underline;
+    }
+    .action-links i {
+        margin-left: 5px;
+    }
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        gap: 10px;
+    }
+    .pagination a {
+        background-color: #38a169;
+        color: #ffffff;
+        padding: 8px 16px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 1rem;
+    }
+    .pagination a:hover {
+        background-color: #2f855a;
+    }
+    .pagination .current-page {
+        background-color: #2f855a;
+        color: #ffffff;
+        padding: 8px 16px;
+        border-radius: 4px;
+        font-weight: bold;
+    }
+    @media (max-width: 768px) {
+        .search-title {
+            font-size: 1.6rem;
+        }
+        .form-group {
+            flex-direction: column;
+        }
+        .form-control, .btn-primary {
+            width: 100%;
+        }
+        th, td {
+            font-size: 0.9rem;
+            padding: 10px;
+        }
+        .action-links a {
+            display: inline-block;
+            margin: 5px 0;
+        }
+    }
+</style>
 
-    <h2>جستجوی دارو</h2>
-
-    <form method="get">
-        <div class="search-container">
-            <input type="text" name="medicine_name" value="{{ search_query }}" placeholder="جستجوی دارو...">
-            <button type="submit">
-                <i class="fas fa-search"></i> جستجو
-            </button>
-        </div>
-    </form>
-
-    <div class="add-medicine">
-        <a href="/add-drug">
-            <i class="fas fa-plus"></i> اضافه کردن دارو جدید
-        </a>
+<div class="container">
+    <h2 class="search-title">جستجوی دارو</h2>
+    <div class="search-form-container">
+        <form method="GET" class="form-group">
+            <input type="text" name="medicine_name" class="form-control" placeholder="نام دارو را وارد کنید" value="{{ search_query|default_if_none:'' }}">
+            <button type="submit" class="btn btn-primary">جستجو</button>
+        </form>
     </div>
 
+    <a href="{% url 'add_drug' %}" class="btn-add-drug">اضافه کردن دارو جدید</a>
+
     {% if is_empty %}
-    <p class="no-results">دارویی با نام "{{ search_query }}" یافت نشد!</p>
+        <div class="alert alert-warning">
+            دارویی با نام "{{ search_query }}" یافت نشد!
+        </div>
     {% endif %}
 
     {% if medicines %}
-    <div class="scrollable-table">
-        <table>
-            <thead>
-                <tr>
-                    <th>نام دارو</th>
-                    <th>تعداد</th>
-                    <th>دسته‌بندی</th>
-                    <th>تاریخ انقضا</th>
-                    <th>توضیحات</th>
-                    <th>تاریخ ورود</th>
-                    <th>عملیات</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for medicine in medicines %}
-                <tr>
-                    <td>{{ medicine.name }}</td>
-                    <td>{{ medicine.number }}</td>
-                    <td>{{ medicine.category }}</td>
-                    <td>{{ medicine.expiration_date }}</td>
-                    <td>{{ medicine.description }}</td>
-                    <td>{{ medicine.date_in_warehouse }}</td>
-                    <td>
-                        <a href="/edit-drug/{{ medicine.id }}"><i class="fas fa-edit"></i> ویرایش</a>
-                        <a href="/delete-drug/{{ medicine.id }}"><i class="fas fa-trash"></i> حذف</a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+        <div class="scrollable-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>نام دارو</th>
+                        <th>تعداد</th>
+                        <th>دسته‌بندی</th>
+                        <th>تاریخ انقضا</th>
+                        <th>توضیحات</th>
+                        <th>تاریخ ورود</th>
+                        <th>عملیات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for medicine in medicines %}
+                        <tr>
+                            <td>{{ medicine.name }}</td>
+                            <td>{{ medicine.number }}</td>
+                            <td>{{ medicine.category }}</td>
+                            <td>{{ medicine.expiration_date }}</td>
+                            <td>{{ medicine.description }}</td>
+                            <td>{{ medicine.date_in_warehouse }}</td>
+                            <td class="action-links">
+                                <a href="{% url 'edit_drug' medicine.id %}"><i class="bi bi-pencil"></i> ویرایش</a>
+                                <a href="{% url 'delete_drug' medicine.id %}"><i class="bi bi-trash"></i> حذف</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
-    <div class="pagination">
-        {% if page_obj.has_previous %}
-        <a href="?page={{ page_obj.previous_page_number }}" class="pagination-button">قبلی</a>
-        {% endif %}
-
-        {% for pageNumber in paginator.page_range %}
-        <a href="?page={{ pageNumber }}" class="pagination-button {% if pageNumber == page_obj.number %}active{% endif %}">{{ pageNumber }}</a>
-        {% endfor %}
-
-        {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}" class="pagination-button">بعدی</a>
-        {% endif %}
-    </div>
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}">قبلی</a>
+            {% endif %}
+            {% for pageNumber in paginator.page_range %}
+                {% if page_obj.number == pageNumber %}
+                    <span class="current-page">{{ pageNumber }}</span>
+                {% else %}
+                    <a href="?page={{ pageNumber }}{% if search_query %}&q={{ search_query }}{% endif %}">{{ pageNumber }}</a>
+                {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}">بعدی</a>
+            {% endif %}
+        </div>
     {% endif %}
+</div>
 {% endblock %}

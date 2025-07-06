@@ -1,5 +1,8 @@
 from django import forms
-from .models import User
+from django.core import validators
+
+from .models import User, PasswordResetCode
+
 
 class SignUpForm(forms.ModelForm):
     password2 = forms.CharField(max_length=100, required=True, widget=forms.PasswordInput(), label='تکرار رمز عبور')
@@ -17,7 +20,7 @@ class SignUpForm(forms.ModelForm):
             'phone_number': forms.TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'شماره موبایل',
-                'error_message': 'شماره موبایل وارد شده معتبر نیست'
+                'error_message': 'شماره موبایل وارد شده معتبر نیست',
             }),
 
             'password': forms.PasswordInput(attrs={
@@ -63,29 +66,66 @@ class SignUpForm(forms.ModelForm):
 
 
 
+class PasswordResetForm(forms.Form):
+    phone_number = forms.CharField(
+        label='شماره تلفن همراه',
+        max_length=11,
+        min_length=11,
+        required=True,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'مثال: 09123456789'})
+    )
+
+    def clean_phone_number(self):
+        phone_number = self.cleaned_data.get('phone_number')
+        if not User.objects.filter(phone_number=phone_number).exists():
+            raise forms.ValidationError('کاربری با این شماره موبایل وجود ندارد!', code='invalid_phone')
+        return phone_number
+
+
+class VerifyCodeForm(forms.Form):
+    code = forms.CharField(
+        label='کد تأیید',
+        min_length=6,
+        max_length=6,
+        required=True,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'کد دریافتی را وارد کنید'})
+    )
+
+    def __init__(self, phone_number, *args, **kwargs):
+        self.phone_number = phone_number
+        super().__init__(*args, **kwargs)
+
+    def clean_code(self):
+        code = self.cleaned_data.get('code')
+        try:
+            user = User.objects.get(phone_number=self.phone_number)
+            reset_code = PasswordResetCode.objects.filter(user=user, code=code, is_used=False).first()
+            if not reset_code or not reset_code.created_at:
+                raise forms.ValidationError('کد وارد شده نامعتبر یا منقضی شده است', code='invalid_code')
+        except User.DoesNotExist:
+            raise forms.ValidationError('کاربر یافت نشد', code='invalid_user')
+        return code
 
 
 
+class ResetPasswordForm(forms.Form):
+    new_password = forms.CharField(
+        label='رمز عبور جدید',
+        required=True,
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'رمز عبور جدید'})
+    )
+    confirm_password = forms.CharField(
+        label='تکرار رمز عبور جدید',
+        required=True,
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'تکرار رمز عبور'})
+    )
 
+    def clean(self):
+        cleaned_data = super().clean()
+        new_password = cleaned_data.get('new_password')
+        confirm_password = cleaned_data.get('confirm_password')
+        if new_password and confirm_password and new_password != confirm_password:
+            raise forms.ValidationError('رمزها با هم مطابقت ندارند!', code='password_mismatch')
+        return cleaned_data
 
-
-
-#
-# class PasswordResetForm(forms.ModelForm):
-#         phone = forms.CharField(label='شماره موبایل کاربر', required=True, min_length=11,
-#                                 max_length=11,)
-#
-#         class Meta:
-#             model = User
-#             fields = ['phone']
-#
-#         def __init__(self, *args, **kwargs):
-#             self.request = kwargs.pop('request')
-#             super().__init__(*args, **kwargs)
-#
-#         def clean_phone(self):
-#             if not User.objects.filter(phone=self.cleaned_data.get('phone')).exists():
-#                 raise forms.ValidationError('کاربری با این شماره موبایل وجود ندارد!', code='phone')
-#
-#             return self.cleaned_data['phone']
 

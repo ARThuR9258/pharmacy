@@ -11,7 +11,7 @@ from pyexpat.errors import messages
 from django import forms
 
 from . import forms
-from .forms import SignUpForm
+from .forms import SignUpForm, PasswordResetForm, VerifyCodeForm, ResetPasswordForm
 from .models import User, PasswordResetCode
 
 
@@ -50,78 +50,91 @@ class LogInView(LoginView):
 
 class ForgotPasswordView(View):
     template_name = 'account_module/forgot_password.html'
-
+    form_class = PasswordResetForm
 
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name)
+        form = self.form_class()
+        return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
-        phone = request.POST.get('phone')
-        try:
-            user = User.objects.get(phone_number=phone)
-            code = ''.join([str(random.randint(0, 9)) for _ in range(6)])
-            PasswordResetCode.objects.create(user=user, code=code)
-            # messages.success(request, f"کد تأیید به شماره {phone} ارسال شد.")
-            request.session['reset_phone'] = phone
-            return redirect('verify_page')
-        except User.DoesNotExist:
-             return render(request, self.template_name)
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            phone_number = form.cleaned_data['phone_number']
+            try:
+                user = User.objects.get(phone_number=phone_number)
+                code = ''.join([str(random.randint(0, 9)) for _ in range(6)])
+                PasswordResetCode.objects.create(user=user, code=code)
+                # messages.success(request, f"کد تأیید به شماره {phone_number} ارسال شد.")
+                request.session['reset_phone'] = phone_number
+                return redirect('verify_page')
+            except User.DoesNotExist:
+                form.add_error('phone_number', 'کاربری با این شماره موبایل وجود ندارد!')
+        return render(request, self.template_name, {'form': form})
 
 
 class VerifyCodeView(View):
     template_name = 'account_module/verify_code.html'
+    form_class = VerifyCodeForm
 
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name, {'phone': request.session.get('reset_phone', '')})
+        phone = request.session.get('reset_phone', '')
+        form = self.form_class(phone_number=phone)
+        return render(request, self.template_name, {'form': form, 'phone': phone})
 
     def post(self, request, *args, **kwargs):
-        code = request.POST.get('code')
-        phone = request.session.get('reset_phone')
-        try:
-            user = User.objects.get(phone_number=phone)
-            reset_code = PasswordResetCode.objects.filter(user=user, code=code, is_used=False).first()
-            if reset_code and reset_code.created_at:
-                reset_code.is_used = True
-                reset_code.save()
-                request.session['reset_user_id'] = user.id
-                return redirect('reset_password_page')
-            else:
-                messages.error(request, "کد نامعتبر یا منقضی شده است.")
-        except User.DoesNotExist:
-            return render(request, self.template_name, {'phone': phone})
+        phone = request.session.get('reset_phone', '')
+        form = self.form_class(phone_number=phone, data=request.POST)
+        if form.is_valid():
+            code = form.cleaned_data['code']
+            try:
+                user = User.objects.get(phone_number=phone)
+                reset_code = PasswordResetCode.objects.filter(user=user, code=code, is_used=False).first()
+                if reset_code and reset_code.created_at:
+                    reset_code.is_used = True
+                    reset_code.save()
+                    request.session['reset_user_id'] = user.id
+                    return redirect('reset_password_page')
+                else:
+                    form.add_error('code', 'کد نامعتبر یا منقضی شده است.')
+            except User.DoesNotExist:
+                form.add_error('code', 'کاربر یافت نشد.')
+        return render(request, self.template_name, {'form': form, 'phone': phone})
 
 
 
 class ResetPasswordView(View):
     template_name = 'account_module/reset_password.html'
+    form_class = ResetPasswordForm
 
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name)
+        form = self.form_class()
+        return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
         user_id = request.session.get('reset_user_id')
-        new_password = request.POST.get('new_password')
-        confirm_password = request.POST.get('confirm_password')
-        if new_password == confirm_password:
-            try:
-                user = User.objects.get(id=user_id)
-                user.set_password(new_password)
-                user.save()
-                del request.session['reset_user_id']
-                del request.session['reset_phone']
-                messages.success(request, "رمز عبور با موفقیت تغییر کرد.")
-                return redirect('sign_in')
-            except User.DoesNotExist:
-                messages.error(request, "خطا در ذخیره رمز.")
-        else:
-            messages.error(request, "رمزها مطابقت ندارند.")
+        if form.is_valid():
+            if user_id:
+                try:
+                    user = User.objects.get(id=user_id)
+                    user.set_password(form.cleaned_data['new_password'])
+                    user.save()
+                    del request.session['reset_user_id']
+                    del request.session['reset_phone']
+                    # messages.success(request, "رمز عبور با موفقیت تغییر کرد.")
+                    return redirect('log_in_page')
+                except User.DoesNotExist:
+                    pass
+                # messages.error(request, "جلسه کاربری منقضی شده است.")
+        return render(request, self.template_name, {'form': form})
+
+
+
+
+class SubscribeView(View):
+    template_name = 'account_module/subscription.html'
+    def get(self, request, *args, **kwargs):
         return render(request, self.template_name)
-
-
-
-
-
-
 
 
 

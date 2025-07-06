@@ -7,5 +7,6 @@ urlpatterns = [
     path('log-out' , LogoutView.as_view(next_page="first_page"), name='logout'),
     path('forgot-password' , views.ForgotPasswordView.as_view(), name='forgot_password_page'),
     path('verify-page' , views.VerifyCodeView.as_view(), name='verify_page'),
-    path('reset-password' , views.ResetPasswordView.as_view(), name='reset_password_page')
+    path('reset-password' , views.ResetPasswordView.as_view(), name='reset_password_page'),
+    path('subscribe-page' , views.SubscribeView.as_view(), name='subscribe_page')
 ]
