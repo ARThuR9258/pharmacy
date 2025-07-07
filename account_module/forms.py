@@ -1,11 +1,31 @@
+import re
+
 from django import forms
 from django.core import validators
+from django.core.exceptions import ValidationError
+from django.core.validators import RegexValidator
 
 from .models import User, PasswordResetCode
 
+mobile_regex = RegexValidator(
+    regex=r'(^\+?(09|98|0)?(9([0-9]{9}))$)',
+    message="شماره موبایل معتبر نیست."
+)
+
 
 class SignUpForm(forms.ModelForm):
-    password2 = forms.CharField(max_length=100, required=True, widget=forms.PasswordInput(), label='تکرار رمز عبور')
+    password = forms.CharField(min_length=8, max_length=100, required=True,
+                                widget=forms.PasswordInput(attrs={'placeholder': 'رمز عبور'}),
+                                label='رمز عبور')
+    password2 = forms.CharField(min_length=8 ,max_length=100, required=True, widget=forms.PasswordInput(attrs={'placeholder': 'تکرار رمز عبور'}), label='تکرار رمز عبور')
+    phone_number = forms.CharField(
+        min_length=11 ,
+        max_length=11,
+        label= 'شاره موبایل' ,
+        widget=forms.TextInput(attrs={'placeholder': 'مثال: 09123456789'}),
+        validators=[mobile_regex]
+    )
+
 
     class Meta:
         model = User
@@ -62,6 +82,9 @@ class SignUpForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+
+
 
 
 

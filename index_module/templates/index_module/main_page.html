@@ -6,7 +6,7 @@
     .container {
         max-width: 600px;
         margin: 20px auto;
-        background-color: #ffffff;
+        background-color: rgba(194, 218, 194, 0.6);
         padding: 20px;
         border-radius: 8px;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -70,82 +70,75 @@
 
 <div class="container">
     <h2 class="form-title">اضافه کردن دارو جدید</h2>
-    <form method="POST" class="drug-form">
-        {% csrf_token %}
-
-        <div class="form-group">
-            <label for="{{ form.name.id_for_label }}">نام دارو</label>
-            {{ form.name|add_class:"form-control form-control-lg floating-input"|attr:"placeholder=نام دارو" }}
-            {% if form.name.errors %}
-                <div class="alert alert-danger">
-                    {% for error in form.name.errors %}
-                        <span>{{ error }}</span>
-                    {% endfor %}
+    <form method="post">
+                {% csrf_token %}
+                <div class="form-group text-right">
+                    <label for="{{ form.name.id_for_label }}">نام دارو</label>
+                    {{ form.name|add_class:"form-control form-control-lg floating-input"|attr:"placeholder=نام دارو" }}
+                    {% if form.name.errors %}
+                        <div class="text-danger small mt-1">
+                            {% for error in form.name.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
-            {% endif %}
-        </div>
-
-        <div class="form-group">
-            <label for="{{ form.number.id_for_label }}">تعداد</label>
-            {{ form.number|add_class:"form-control form-control-lg floating-input"|attr:"placeholder=تعداد" }}
-            {% if form.number.errors %}
-                <div class="alert alert-danger">
-                    {% for error in form.number.errors %}
-                        <span>{{ error }}</span>
-                    {% endfor %}
+                <div class="form-group text-right">
+                    <label for="{{ form.number.id_for_label }}">تعداد</label>
+                    {{ form.number|add_class:"form-control form-control-lg floating-input"|attr:"placeholder=تعداد" }}
+                    {% if form.number.errors %}
+                        <div class="text-danger small mt-1">
+                            {% for error in form.number.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
-            {% endif %}
-        </div>
-
-        <div class="form-group">
-            <label for="{{ form.category.id_for_label }}">دسته‌بندی</label>
-            {{ form.category|add_class:"form-control form-control-lg floating-input"|attr:"placeholder=دسته‌بندی" }}
-            {% if form.category.errors %}
-                <div class="alert alert-danger">
-                    {% for error in form.category.errors %}
-                        <span>{{ error }}</span>
-                    {% endfor %}
+                <div class="form-group text-right">
+                    <label for="{{ form.category.id_for_label }}">دسته‌بندی</label>
+                    {{ form.category|add_class:"form-control form-control-lg floating-input"|attr:"placeholder=دسته‌بندی" }}
+                    {% if form.category.errors %}
+                        <div class="text-danger small mt-1">
+                            {% for error in form.category.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
-            {% endif %}
-        </div>
-
-        <div class="form-group">
-            <label for="{{ form.expiration_date.id_for_label }}">تاریخ انقضاء دارو</label>
-            {{ form.expiration_date|add_class:"form-control form-control-lg floating-input"|attr:"placeholder=انقضاءدارو" }}
-            {% if form.expiration_date.errors %}
-                <div class="alert alert-danger">
-                    {% for error in form.expiration_date.errors %}
-                        <span>{{ error }}</span>
-                    {% endfor %}
+                <div class="form-group text-right">
+                    <label for="{{ form.expiration_date.id_for_label }}">تاریخ انقضاء دارو</label>
+                    {{ form.expiration_date|add_class:"form-control form-control-lg floating-input"|attr:"placeholder=انقضاء دارو" }}
+                    {% if form.expiration_date.errors %}
+                        <div class="text-danger small mt-1">
+                            {% for error in form.expiration_date.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
-            {% endif %}
-        </div>
-
-        <div class="form-group">
-            <label for="{{ form.description.id_for_label }}">توضیحات</label>
-            {{ form.description|add_class:"form-control form-control-lg floating-input"|attr:"placeholder=توضیحات" }}
-            {% if form.description.errors %}
-                <div class="alert alert-danger">
-                    {% for error in form.description.errors %}
-                        <span>{{ error }}</span>
-                    {% endfor %}
+                <div class="form-group text-right">
+                    <label for="{{ form.description.id_for_label }}">توضیحات</label>
+                    {{ form.description|add_class:"form-control form-control-lg floating-input"|attr:"placeholder=توضیحات" }}
+                    {% if form.description.errors %}
+                        <div class="text-danger small mt-1">
+                            {% for error in form.description.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
-            {% endif %}
-        </div>
-
-        <div class="form-group">
-            <label for="{{ form.date_in_warehouse.id_for_label }}">تاریخ ورود به انبار</label>
-            {{ form.date_in_warehouse|add_class:"form-control form-control-lg floating-input"|attr:"placeholder=ورودانبار" }}
-            {% if form.date_in_warehouse.errors %}
-                <div class="alert alert-danger">
-                    {% for error in form.date_in_warehouse.errors %}
-                        <span>{{ error }}</span>
-                    {% endfor %}
+                <div class="form-group text-right">
+                    <label for="{{ form.date_in_warehouse.id_for_label }}">تاریخ ورود به انبار</label>
+                    {{ form.date_in_warehouse|add_class:"form-control form-control-lg floating-input"|attr:"placeholder=ورود انبار" }}
+                    {% if form.date_in_warehouse.errors %}
+                        <div class="text-danger small mt-1">
+                            {% for error in form.date_in_warehouse.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
-            {% endif %}
-        </div>
-
-        <button type="submit" class="btn btn-primary">اضافه کردن دارو</button>
-    </form>
+                <button type="submit" class="btn btn-custom w-100 mt-3">اضافه کردن دارو</button>
+            </form>
 </div>
 {% endblock %}

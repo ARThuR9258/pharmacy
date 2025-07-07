@@ -8,6 +8,6 @@ urlpatterns = [
     path('add-drug' , views.DrugCreateView.as_view(),name = 'add_drug'),
 
     path('search-drug' , views.SearchDrugView.as_view() , name = 'search_drug'),
-    path('edit-drug/<pk>' , views.EditDrugView.as_view() , name = 'edit_drug'),
-    path('delete-drug/<pk>' , views.DeleteDrugView.as_view() , name = 'delete_drug')
+    path('edit-drug/<int:pk>' , views.EditDrugView.as_view() , name = 'edit_drug'),
+    path('delete-drug/<int:pk>' , views.DeleteDrugView.as_view() , name = 'delete_drug')
 ]
