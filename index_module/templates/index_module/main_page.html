@@ -107,7 +107,7 @@
                 </div>
                 <div class="form-group text-right">
                     <label for="{{ form.expiration_date.id_for_label }}">تاریخ انقضاء دارو</label>
-                    {{ form.expiration_date|add_class:"form-control form-control-lg floating-input"|attr:"placeholder=انقضاء دارو" }}
+                    {{ form.expiration_date|add_class:"form-control form-control-lg"|attr:"type=date" }}
                     {% if form.expiration_date.errors %}
                         <div class="text-danger small mt-1">
                             {% for error in form.expiration_date.errors %}
@@ -138,7 +138,7 @@
                         </div>
                     {% endif %}
                 </div>
-                <button type="submit" class="btn btn-custom w-100 mt-3">اضافه کردن دارو</button>
+                <button type="submit" class="btn btn-custom w-100 mt-3" style="background-color: #768578 !important; font-weight: bold;">اضافه کردن دارو</button>
             </form>
 </div>
 {% endblock %}

@@ -195,12 +195,12 @@
                 <tbody>
                     {% for medicine in medicines %}
                         <tr>
-                            <td>{{ medicine.name }}</td>
+                            <td>{{ medicine.name}}</td>
                             <td>{{ medicine.number }}</td>
-                            <td>{{ medicine.category }}</td>
-                            <td>{{ medicine.expiration_date }}</td>
-                            <td>{{ medicine.description }}</td>
-                            <td>{{ medicine.date_in_warehouse }}</td>
+                            <td>{{ medicine.category|default:"دسته بندی ندارد" }}</td>
+                            <td>{{ medicine.expiration_date|date:"Y,m,d" |default:"تاریخ انقضا ندارد" }}</td>
+                            <td>{{ medicine.description|default:"توضیحات ندارد" }}</td>
+                            <td>{{ medicine.date_in_warehouse|default:"تاریخ ورود به انبار وجود ندارد" }}</td>
                             <td class="action-links">
                                 <a href="{% url 'edit_drug' medicine.id %}"><i class="bi bi-pencil"></i> ویرایش</a>
                                 <a href="{% url 'delete_drug' medicine.id %}"><i class="bi bi-trash"></i> حذف</a>

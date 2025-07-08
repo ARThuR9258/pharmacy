@@ -20,7 +20,7 @@
                                 <td>{{ medicine.name }}</td>
                                 <td>{{ medicine.number }}</td>
                                 <td>{{ medicine.category|default:"ندارد" }}</td>
-                                <td>{{ medicine.expiration_date }}</td>
+                                <td>{{ medicine.expiration_date|date:"Y,m,d" }}</td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -31,9 +31,25 @@
                 هیچ دارویی با تاریخ انقضا نزدیک وجود ندارد.
             </div>
         {% endif %}
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}">قبلی</a>
+            {% endif %}
+            {% for pageNumber in paginator.page_range %}
+                {% if page_obj.number == pageNumber %}
+                    <span class="current-page">{{ pageNumber }}</span>
+                {% else %}
+                    <a href="?page={{ pageNumber }}{% if search_query %}&q={{ search_query }}{% endif %}">{{ pageNumber }}</a>
+                {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}">بعدی</a>
+            {% endif %}
+        </div>
         <div class="text-center mt-4">
             <a href="{% url 'search_drug' %}" class="btn-modern">بازگشت به جستجو</a>
         </div>
+
     </div>
     <style>
         .container {
@@ -62,6 +78,30 @@
             background-color: #e3e5e6;
             color: #000000;
         }
+            .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        gap: 10px;
+    }
+    .pagination a {
+        background-color: #38a169;
+        color: #ffffff;
+        padding: 8px 16px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 1rem;
+    }
+    .pagination a:hover {
+        background-color: #2f855a;
+    }
+    .pagination .current-page {
+        background-color: #2f855a;
+        color: #ffffff;
+        padding: 8px 16px;
+        border-radius: 4px;
+        font-weight: bold;
+    }
         .table-modern th {
             background-color: #97c699;
             padding: 15px;
@@ -85,7 +125,7 @@
             border-radius: 8px;
         }
         .btn-modern {
-            background-color: #33493d;
+            background-color: #4d5c5c;
             color: #ffffff;
             padding: 12px 25px;
             border: none;

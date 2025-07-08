@@ -4,7 +4,7 @@ from django.conf import settings
 class Drugs(models.Model):
     name = models.CharField(max_length=200, verbose_name='نام دارو')
     category = models.CharField(max_length=200, verbose_name='دسته بندی دارو', null=True, blank=True)
-    expiration_date = models.CharField(max_length=200 ,verbose_name='تاریخ انقضا دارو', null=True, blank=True)
+    expiration_date = models.DateField(verbose_name='تاریخ انقضا دارو', null=True, blank=True)
     number = models.CharField(max_length=200 , verbose_name='تعداد دارو')
     description = models.CharField(max_length=400, verbose_name='توضیحات برای این دارو', null=True, blank=True)
     date_in_warehouse = models.CharField(max_length=200,verbose_name='تاریخ ورود دارو به انبار', null=True, blank=True)

@@ -11,7 +11,7 @@ from .models import Drugs
 
 class DrugCreateView(LoginRequiredMixin, CreateView):
     model = Drugs
-    fields = ['name', 'number', 'category', 'expiration_date', 'description', 'date_in_warehouse']
+    form_class = DrugForm
     template_name = 'index_module/main_page.html'
     success_url = reverse_lazy('search_drug')  # تغییر به صفحه جستجو
 
@@ -79,6 +79,7 @@ class ExpiredDrugsView(LoginRequiredMixin,ListView):
     model = Drugs
     template_name = 'index_module/expired_drugs.html'
     context_object_name = 'expired_medicines'
+    paginate_by = 5
 
     def get_queryset(self):
         today = timezone.now().date()

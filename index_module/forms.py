@@ -18,10 +18,11 @@ class DrugForm(forms.ModelForm):
                 'class': 'form-control',
                 'placeholder': 'دسته بندی دارو'
             }),
-            'expiration_date': forms.TextInput(attrs={
+            'expiration_date': forms.DateInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'تاریخ انقضا دارو',
-                'type': 'text'
+                'type': 'date',
+                'format': '%Y-%m-%d'
             }),
             'description': forms.TextInput(attrs={
                 'class': 'form-control',
