@@ -133,11 +133,15 @@ class VerifyCodeForm(forms.Form):
 
 class ResetPasswordForm(forms.Form):
     new_password = forms.CharField(
+        max_length=100,
+        min_length=8,
         label='رمز عبور جدید',
         required=True,
         widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'رمز عبور جدید'})
     )
     confirm_password = forms.CharField(
+        max_length=100,
+        min_length=8,
         label='تکرار رمز عبور جدید',
         required=True,
         widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'تکرار رمز عبور'})

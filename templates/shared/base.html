@@ -47,7 +47,7 @@
         .nav-link {
             color: #ffffff !important;
             font-size: 1.3rem;
-            font-weight: 600;
+            font-weight: 400;
             padding: 12px 20px;
             border-radius: 10px;
             display: flex;
@@ -132,6 +132,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'add_drug' %}"><i class="bi bi-plus-circle"></i> اضافه کردن دارو</a>
                     </li>
+                    <li class="nav-item">
+                            <a class="nav-link" href="{% url 'expired-drugs' %}"><i class="bi bi-box-arrow-in-right"></i>داوهای انقضاء نزدیک</a>
+                        </li>
                 </ul>
                 <ul class="navbar-nav">
                     {% if user.is_authenticated %}
@@ -151,6 +154,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'subscribe_page' %}"><i class="bi bi-box-arrow-in-right"></i>خرید اشتراک</a>
                         </li>
+
                     {% endif %}
                 </ul>
             </div>

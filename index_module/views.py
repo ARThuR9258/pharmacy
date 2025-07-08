@@ -1,6 +1,9 @@
+from datetime import timezone, timedelta
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.urls import reverse_lazy
+from django.utils import timezone
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView, View
 
 from .forms import DrugForm
@@ -68,6 +71,23 @@ class DeleteDrugView(LoginRequiredMixin, DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        return context
+
+
+
+class ExpiredDrugsView(LoginRequiredMixin,ListView):
+    model = Drugs
+    template_name = 'index_module/expired_drugs.html'
+    context_object_name = 'expired_medicines'
+
+    def get_queryset(self):
+        today = timezone.now().date()
+        six_month_later = today + timedelta(days=180)
+        return Drugs.objects.filter(user=self.request.user,expiration_date__lte=six_month_later)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['six_month_later'] = timezone.now().date() + timedelta(days=180)
         return context
 
 
