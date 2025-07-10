@@ -85,6 +85,7 @@
         background-color: #ffffff;
         border-radius: 8px;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
     }
     th, td {
         padding: 12px 15px;
@@ -180,7 +181,7 @@
 
     {% if medicines %}
         <div class="scrollable-table">
-            <table>
+            <table  class="table table-striped text-white" style="table-layout: fixed; width: 100%;">
                 <thead>
                     <tr >
                         <th>نام دارو</th>
@@ -195,12 +196,12 @@
                 <tbody>
                     {% for medicine in medicines %}
                         <tr>
-                            <td>{{ medicine.name}}</td>
-                            <td>{{ medicine.number }}</td>
-                            <td>{{ medicine.category|default:"دسته بندی ندارد" }}</td>
-                            <td>{{ medicine.expiration_date|date:"Y,m,d" |default:"تاریخ انقضا ندارد" }}</td>
-                            <td>{{ medicine.description|default:"توضیحات ندارد" }}</td>
-                            <td>{{ medicine.date_in_warehouse|default:"تاریخ ورود به انبار وجود ندارد" }}</td>
+                            <td title="{{ medicine.name }}">{{ medicine.name|truncatechars:15}}</td>
+                            <td title="{{ medicine.number }}">{{ medicine.number|truncatechars:15 }}</td>
+                            <td title="{{ medicine.category }}">{{ medicine.category|default:"دسته بندی ندارد"|truncatechars:15 }}</td>
+                            <td title="{{ medicine.expiration_date }}">{{ medicine.expiration_date|date:"Y,m,d" |default:"تاریخ انقضا ندارد"|truncatechars:15}}</td>
+                            <td title="{{ medicine.description }}">{{ medicine.description|default:"توضیحات ندارد"|truncatechars:15 }}</td>
+                            <td title="{{ medicine.date_in_warehouse }}">{{ medicine.date_in_warehouse|default:"تاریخ ورود به انبار وجود ندارد"|truncatechars:15 }}</td>
                             <td class="action-links">
                                 <a href="{% url 'edit_drug' medicine.id %}"><i class="bi bi-pencil"></i> ویرایش</a>
                                 <a href="{% url 'delete_drug' medicine.id %}"><i class="bi bi-trash"></i> حذف</a>

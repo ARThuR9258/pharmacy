@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'index_module',
     'account_module',
-    'widget_tweaks'
+    'widget_tweaks',
+    'django_render_partial',
 ]
 
 MIDDLEWARE = [

@@ -1,93 +1,77 @@
-<!DOCTYPE html>
-<html lang="fa">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>فوتر</title>
-    <link href="https://cdn.jsdelivr.net/npm/vazir-font@32.105.0/dist/font-face.css" rel="stylesheet">
-    <style>
-        /* Reset and Base Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Vazir', sans-serif;
-        }
+<style>footer {
+    font-size: 0.7em;
+    padding: 10px;
+    background-color: #2c2f33;
+    color: #ffffff;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
 
-        /* Footer Styles */
-        footer {
-            background-color: #10b981;
-            color: white;
-            padding: 1rem;
-            text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-        .footer-section {
-            flex: 1;
-            min-width: 200px;
-        }
-        .footer-section h3 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-        .footer-section p, .footer-section a {
-            font-size: 0.9rem;
-            color: white;
-            text-decoration: none;
-            line-height: 1.5;
-        }
-        .footer-section a:hover {
-            text-decoration: underline;
-        }
-        .footer-logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-        .footer-logo img {
-            height: 40px;
-            margin-left: 0.5rem;
-        }
-        .contact-info a {
-            display: block;
-            margin: 0.25rem 0;
-        }
-    </style>
-</head>
-<body>
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section footer-logo">
-                <div>داروکده</div>
-                <img src="{% static 'images/logo.png' %}" alt="Logo">
-            </div>
-            <div class="footer-section">
-                <h3>لینک‌ها</h3>
-                <p><a href="#">خانه</a></p>
-                <p><a href="#">محصولات</a></p>
-                <p><a href="#">درباره ما</a></p>
-            </div>
-            <div class="footer-section">
-                <h3>خدمات</h3>
-                <p><a href="#">پشتیبانی</a></p>
-                <p><a href="#">سوالات متداول</a></p>
-            </div>
-            <div class="footer-section contact-info">
-                <h3>تماس با ما</h3>
-                <p><a href="mailto:info@darukode.com">info@darukode.com</a></p>
-                <p><a href="tel:+989123456789">+98 912 345 6789</a></p>
-                <p>تهران، ایران</p>
-            </div>
-        </div>
-        <p style="margin-top: 1rem; font-size: 0.8rem;">© 2025 داروکده | طراحی شده در 6 ژوئیه 2025، 05:18 PM BST</p>
-    </footer>
-</body>
-</html>
+footer h5 {
+    margin-bottom: 5px;
+}
+
+footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+footer li a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+footer p {
+    margin: 2px 0;
+}
+
+footer .copyright {
+    margin: 5px 0;
+    font-size: 0.8em;
+}
+
+/* برای اطمینان از اینکه محتوا زیر فوتر نره */
+body {
+    min-height: 100vh;
+    margin: 0;
+    padding-bottom: 60px; /* ارتفاع تقریبی فوتر */
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}</style>
+
+<footer>
+    <div>
+        <h5>داروکده</h5>
+    </div>
+    <div>
+        <h5>لینک‌ها</h5>
+        <ul>
+            <li><a href="#">خانه</a></li>
+            <li><a href="#">محصولات</a></li>
+            <li><a href="#">درباره ما</a></li>
+        </ul>
+    </div>
+    <div>
+        <h5>خدمات</h5>
+        <ul>
+            <li><a href="#">پشتیبانی</a></li>
+            <li><a href="#">سوالات متداول</a></li>
+        </ul>
+    </div>
+    <div>
+        <h5>تماس با ما</h5>
+        <p>info@darukode.com</p>
+        <p>+98 912 345 6789</p>
+        <p>تهران، ایران</p>
+    </div>
+    <p class="copyright">© 2025 داروکده | طراحی شده در 6 ژوئیه 2025، 05:18 PM BST</p>
+</footer>

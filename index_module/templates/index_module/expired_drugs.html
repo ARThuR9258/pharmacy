@@ -17,10 +17,10 @@
                     <tbody>
                         {% for medicine in expired_medicines %}
                             <tr>
-                                <td>{{ medicine.name }}</td>
-                                <td>{{ medicine.number }}</td>
-                                <td>{{ medicine.category|default:"ندارد" }}</td>
-                                <td>{{ medicine.expiration_date|date:"Y,m,d" }}</td>
+                                <td title="{{ medicine.name }}">{{ medicine.name|truncatechars:15 }}</td>
+                                <td title="{{ medicine.number }}">{{ medicine.number|truncatechars:15 }}</td>
+                                <td title="{{ medicine.category }}">{{ medicine.category|default:"ندارد"|truncatechars:15 }}</td>
+                                <td title="{{ medicine.expiration_date }}">{{ medicine.expiration_date|date:"Y,m,d"|truncatechars:15 }}</td>
                             </tr>
                         {% endfor %}
                     </tbody>
