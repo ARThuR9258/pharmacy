@@ -6,6 +6,8 @@ from django.db import models
 
 class User(AbstractUser):
     phone_number = models.CharField(max_length=11, unique=True, verbose_name='شماره موبایل کاربر')
+    is_verified = models.BooleanField(default=False)
+
 
     class Meta:
         verbose_name = 'کاربر'

@@ -8,6 +8,7 @@ body {
     align-items: center;
     margin: 0;
     font-family: 'Poppins', sans-serif;
+
 }
 
 .signup-container {
@@ -103,5 +104,78 @@ body {
     }
     .signup-card h2 {
         font-size: 24px;
+    }
+}
+/* استایل برای جدول */
+.table-container {
+    overflow-x: auto; /* اسکرول افقی در صورت نیاز */
+    margin: 20px 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+    white-space: nowrap; /* جلوگیری از شکستن متن */
+}
+
+th {
+    background-color: #2c2f33;
+    color: #ffffff;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #ddd;
+}
+
+/* ریسپانسیو برای موبایل (کمتر از 768px) */
+@media (max-width: 768px) {
+    .table-container {
+        margin: 10px 0;
+    }
+
+    table {
+        display: block; /* تبدیل به بلاک برای ریسپانسیو */
+        width: 100%;
+    }
+
+    th, td {
+        padding: 8px;
+        font-size: 0.9em;
+    }
+
+    tr {
+        display: block; /* هر ردیف به‌صورت بلاک */
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+    }
+
+    td {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        margin-right: 10px;
+        color: #2c2f33;
+    }
+
+    th {
+        display: none; /* ستون‌ها توی موبایل مخفی می‌شن */
     }
 }

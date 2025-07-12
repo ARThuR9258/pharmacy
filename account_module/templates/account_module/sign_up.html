@@ -92,7 +92,7 @@
 
 <div class="container">
     <h2 class="form-title">ثبت‌نام</h2>
-    <form method="POST" class="auth-form">
+    <form method="POST" class="auth-form" >
         {% csrf_token %}
         <div class="form-group">
             <label for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>

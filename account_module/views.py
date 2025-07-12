@@ -1,6 +1,7 @@
 import random
 from time import timezone
 
+from django.contrib.auth import login
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
 from django.template.context_processors import request
@@ -11,7 +12,7 @@ from pyexpat.errors import messages
 from django import forms
 
 from . import forms
-from .forms import SignUpForm, PasswordResetForm, VerifyCodeForm, ResetPasswordForm
+from .forms import SignUpForm, PasswordResetForm, VerifyCodeForm, ResetPasswordForm, RegistrationVerifyCodeForm
 from .models import User, PasswordResetCode
 
 
@@ -20,7 +21,8 @@ from .models import User, PasswordResetCode
 class SignUpView(CreateView):
     form_class = SignUpForm
     template_name = 'account_module/sign_up.html'
-    success_url = reverse_lazy('log_in_page')
+    success_url = reverse_lazy('signup_verify_page')
+
 
 
 
@@ -137,5 +139,35 @@ class SubscribeView(View):
         return render(request, self.template_name)
 
 
+class SignUpVerifyCode(View):
+    def get(self, request):
+        phone_number = request.session.get('phone_number')
+        if not phone_number:
+            # messages.error(request, 'لطفاً ابتدا فرم ثبت‌نام را پر کنید.')
+            return redirect('sign_up_page')
+        form = RegistrationVerifyCodeForm(phone_number=phone_number)
+        return render(request, 'account_module/signup_verify_code.html', {'form': form})
+
+    def post(self, request):
+        phone_number = request.session.get('phone_number')
+        if not phone_number:
+            # messages.error(request, 'لطفاً ابتدا فرم ثبت‌نام را پر کنید.')
+            return redirect('sign_up_page')
+
+        form = RegistrationVerifyCodeForm(phone_number=phone_number, data=request.POST)
+        if form.is_valid():
+            user = User.objects.get(phone_number=phone_number)
+            reset_code = PasswordResetCode.objects.get(user=user, code=form.cleaned_data['code'], is_used=False)
+            reset_code.is_used = True
+            reset_code.save()
+            user.is_verified = True  # تأیید کاربر
+            user.save()
+            login(request, user)  # ورود خودکار کاربر
+            # messages.success(request, 'ثبت‌نام با موفقیت انجام شد!')
+            del request.session['phone_number']  # پاک کردن سشن
+            return redirect('first_page')  # به صفحه اصلی برو
+        else:
+            # messages.error(request, 'کد تأیید اشتباه است!')
+            return render(request, 'account_module/signup_verify_code.html', {'form': form})
 
 

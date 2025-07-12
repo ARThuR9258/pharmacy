@@ -1,3 +1,4 @@
+import random
 import re
 
 from django import forms
@@ -81,7 +82,17 @@ class SignUpForm(forms.ModelForm):
             user.set_password(password)
         if commit:
             user.save()
+        verification_code = str(random.randint(100000, 999999))
+        PasswordResetCode.objects.create(
+            user=user,
+            code=verification_code,
+            is_registration_code=True
+        )
+        if 'request' in self._meta.model.__dict__ and hasattr(self._meta.model.request, 'session'):
+            self._meta.model.request.session['user_phone'] = user.phone_number
+            self._meta.model.request.session['verification_code'] = verification_code  # اختیاری، برای تست
         return user
+
 
 
 
@@ -155,4 +166,28 @@ class ResetPasswordForm(forms.Form):
             raise forms.ValidationError('رمزها با هم مطابقت ندارند!', code='password_mismatch')
         return cleaned_data
 
+
+class RegistrationVerifyCodeForm(forms.Form):
+    code = forms.CharField(
+        label='کد تأیید ثبت‌نام',
+        min_length=6,
+        max_length=6,
+        required=True,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'کد دریافتی را وارد کنید'})
+    )
+
+    def __init__(self, phone_number, *args, **kwargs):
+        self.phone_number = phone_number
+        super().__init__(*args, **kwargs)
+
+    def clean_code(self):
+        code = self.cleaned_data.get('code')
+        try:
+            user = User.objects.get(phone_number=self.phone_number)
+            reset_code = PasswordResetCode.objects.filter(user=user, code=code, is_used=False,).first()
+            if not reset_code or not reset_code.created_at:
+                raise forms.ValidationError('کد وارد شده نامعتبر یا منقضی شده است', code='invalid_code')
+        except User.DoesNotExist:
+            raise forms.ValidationError('کاربر یافت نشد', code='invalid_user')
+        return code
 
