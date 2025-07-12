@@ -23,6 +23,11 @@ class SignUpView(CreateView):
     template_name = 'account_module/sign_up.html'
     success_url = reverse_lazy('signup_verify_page')
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({'request': self.request})
+        return kwargs
+
 
 
 

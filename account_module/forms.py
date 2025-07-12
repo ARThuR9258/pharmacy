@@ -6,6 +6,8 @@ from django.core import validators
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 
+from Sms.helpers import send_sms
+from Sms.sms_texts import SMS_TEXTS
 from .models import User, PasswordResetCode
 
 mobile_regex = RegexValidator(
@@ -58,6 +60,7 @@ class SignUpForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request')
         super().__init__(*args, **kwargs)
         if 'password' in self.fields:
             self.fields['password'].widget = forms.PasswordInput(attrs=self.fields['password'].widget.attrs)
@@ -86,11 +89,10 @@ class SignUpForm(forms.ModelForm):
         PasswordResetCode.objects.create(
             user=user,
             code=verification_code,
-            is_registration_code=True
         )
-        if 'request' in self._meta.model.__dict__ and hasattr(self._meta.model.request, 'session'):
-            self._meta.model.request.session['user_phone'] = user.phone_number
-            self._meta.model.request.session['verification_code'] = verification_code  # اختیاری، برای تست
+        # sms_text = SMS_TEXTS['verify_code'].format(verification_code)
+        # send_sms(user.phone_number, sms_text)
+        self.request.session['phone_number'] = user.phone_number
         return user
 
 

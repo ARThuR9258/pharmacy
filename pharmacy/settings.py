@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'account_module',
     'widget_tweaks',
     'django_render_partial',
+    'Sms'
 ]
 
 MIDDLEWARE = [
@@ -144,3 +145,9 @@ LOGIN_REDIRECT_URL = 'first_page'
 DEFAULT_CHARSET = 'utf-8'
 
 LANGUAGE_CODE = 'fa-ir'
+
+# SMS
+SMS_USERNAME = '09390670055'
+SMS_PASSWORD = '1234'
+SMS_FROM_NUMBER = '10002147'
+SMS_WEB_SERVICE_URL = 'https://webone-sms.ir/SMSInOutBox/SendSms?'
