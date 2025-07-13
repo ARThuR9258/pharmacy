@@ -1,6 +1,9 @@
 import random
-from time import timezone
 
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.utils import timezone
+
+from datetime import timedelta
 from django.contrib.auth import login
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
@@ -11,6 +14,7 @@ from django.views.generic import CreateView, UpdateView
 from pyexpat.errors import messages
 from django import forms
 
+from index_module.models import Drugs
 from . import forms
 from .forms import SignUpForm, PasswordResetForm, VerifyCodeForm, ResetPasswordForm, RegistrationVerifyCodeForm
 from .models import User, PasswordResetCode
@@ -176,3 +180,18 @@ class SignUpVerifyCode(View):
             return render(request, 'account_module/signup_verify_code.html', {'form': form})
 
 
+
+class UserPanelView(LoginRequiredMixin,View):
+    template_name = 'account_module/user_panel.html'
+
+    def get_queryset(self):
+        today = timezone.now().date()
+        six_month_later = today + timedelta(days=180)
+        return Drugs.objects.filter(user=self.request.user,expiration_date__lte=six_month_later)
+
+    def get(self,request,*args,**kwargs):
+        context={
+        'medicine_count':Drugs.objects.filter(user=self.request.user).count(),
+        'expiring_soon': self.get_queryset().count()
+        }
+        return render(request ,self.template_name,context)

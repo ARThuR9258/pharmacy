@@ -1,0 +1,162 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+{% block title %}پنل کاربر{% endblock %}
+{% block content %}
+
+<style>
+    /* تنظیمات کلی */
+    .user-panel {
+        max-width: 700px;
+        margin: 30px auto;
+        padding: 20px;
+        background: linear-gradient(135deg, #ffffff, #f7fafc);
+        border-radius: 10px;
+        box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+        font-family: 'Vazir', sans-serif;
+    }
+
+    /* عنوان */
+    .user-info h2 {
+        color: #1a202c;
+        font-size: 1.8rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+        text-align: center;
+        letter-spacing: 0.3px;
+    }
+
+    /* اطلاعات کاربر */
+    .user-info p {
+        font-size: 1.1rem;
+        color: #4a5568;
+        margin: 10px 0;
+        padding: 8px;
+        background: #fff;
+        border-radius: 6px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    }
+    .user-info p strong {
+        color: #2d3748;
+        font-weight: 500;
+    }
+
+    /* گروه دکمه‌ها */
+    .button-group {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 20px;
+        flex-wrap: wrap;
+    }
+
+    /* دکمه عمومی */
+    .btn {
+        background-color: #38a169;
+        border: none;
+        padding: 10px 0;
+        border-radius: 6px;
+        color: #ffffff;
+        font-size: 0.9rem;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        width: 140px; /* عرض کوچکتر */
+        text-align: center;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 6px rgba(56, 161, 105, 0.2);
+    }
+    .btn:hover {
+        background-color: #2f855a;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(56, 161, 105, 0.3);
+    }
+
+    /* دکمه خروج */
+    .btn-logout {
+        background-color: #e53e3e;
+        border: none;
+        padding: 10px 0;
+        border-radius: 6px;
+        color: #ffffff;
+        font-size: 0.9rem;
+        font-weight: 500;
+        width: 140px; /* هم‌اندازه با دکمه دیگر */
+        text-align: center;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 6px rgba(229, 62, 62, 0.2);
+    }
+    .btn-logout:hover {
+        background-color: #c53030;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(229, 62, 62, 0.3);
+    }
+    .btn-logout i {
+        margin-left: 6px;
+    }
+
+    /* فوتر */
+    .footer-text {
+        font-size: 0.85rem;
+        color: #718096;
+        margin-top: 20px;
+        text-align: center;
+        font-style: italic;
+    }
+
+    /* ریسپانسیو */
+    @media (max-width: 600px) {
+        .user-panel {
+            margin: 15px;
+            padding: 15px;
+        }
+        .user-info h2 {
+            font-size: 1.4rem;
+        }
+        .user-info p {
+            font-size: 0.9rem;
+            flex-direction: column;
+            text-align: center;
+            padding: 6px;
+        }
+        .button-group {
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn, .btn-logout {
+            width: 100%;
+            max-width: 200px;
+        }
+    }
+</style>
+
+
+
+<div class="user-panel">
+    <div class="user-info">
+        <h2>پنل کاربر - خوش آمدید، {{ user.username }}!</h2>
+        <p><strong>نام کاربری:</strong> <span>{{ user.username }}</span></p>
+        <p><strong>شماره موبایل:</strong> <span>{{ user.phone_number }}</span></p>
+        <p><strong>وضعیت تأیید:</strong> <span>{% if user.is_verified %}تأیید شده{% else %}تأیید نشده{% endif %}</span></p>
+        <p><strong>داروهای ثبت شده:</strong> <span>{{ medicine_count }}</span></p>
+        <p><strong>داروهایی که 6 ماه به انقضاء دارند:</strong> <span>{{ expiring_soon }}</span></p>
+
+        <div class="button-group">
+            <a href="{% url 'forgot_password_page' %}" class="btn">تغییر رمز عبور</a>
+            <form method="POST" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn-logout"><i class="bi bi-box-arrow-right"></i> خروج از حساب</button>
+            </form>
+        </div>
+    </div>
+    <p class="footer-text">© 2025 مدیریت دارو | طراحی شده در 13 ژوئیه 2025، 12:52 PM +03</p>
+</div>
+{% endblock %}

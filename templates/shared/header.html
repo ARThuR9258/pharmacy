@@ -77,7 +77,7 @@
             background: linear-gradient(90deg, #e53e3e 0%, #f56565 100%);
             border: none;
             color: #ffffff;
-            font-size: 1.3rem;
+            font-size: 0.8rem;
             font-weight: 600;
             padding: 12px 20px;
             border-radius: 10px;
@@ -140,11 +140,15 @@
                 <ul class="navbar-nav">
                     {% if user.is_authenticated %}
                         <li class="nav-item">
+                            <a class="nav-link" href="{% url 'user_panel_page' %}"><i class="bi bi-person"></i> پنل کاربری</a>
+                        </li>
+                        <li class="nav-item">
                             <form method="POST" action="{% url 'logout' %}">
                                 {% csrf_token %}
                                 <button type="submit" class="btn-logout"><i class="bi bi-box-arrow-right"></i> خروج</button>
                             </form>
                         </li>
+
                     {% else %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'sign_up_page' %}"><i class="bi bi-person-plus"></i> ثبت نام</a>
