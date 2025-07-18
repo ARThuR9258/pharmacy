@@ -68,9 +68,6 @@
     }
 </style>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-
 <div class="container">
     <h2 class="form-title">اضافه کردن دارو جدید</h2>
     <form method="post">
@@ -108,17 +105,17 @@
                         </div>
                     {% endif %}
                 </div>
-                            <div class="form-group">
-                <label for="{{ form.expiration_date.id_for_label }}">تاریخ انقضاء دارو</label>
-                {{ form.expiration_date|add_class:"form-control form-control-lg"|attr:"placeholder=YYYY/MM (مثال: 2025/10)" }}
-                {% if form.expiration_date.errors %}
-                    <ul class="errorlist">
-                        {% for error in form.expiration_date.errors %}
-                            <li>{{ error }}</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-            </div>
+                <div class="form-group text-right">
+                    <label for="{{ form.expiration_date.id_for_label }}">تاریخ انقضاء دارو</label>
+                    {{ form.expiration_date|add_class:"form-control form-control-lg"|attr:"type=date" }}
+                    {% if form.expiration_date.errors %}
+                        <div class="text-danger small mt-1">
+                            {% for error in form.expiration_date.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
                 <div class="form-group text-right">
                     <label for="{{ form.description.id_for_label }}">توضیحات</label>
                     {{ form.description|add_class:"form-control form-control-lg floating-input"|attr:"placeholder=توضیحات" }}
@@ -144,22 +141,5 @@
                 <button type="submit" class="btn btn-custom w-100 mt-3" style="background-color: #768578 !important; font-weight: bold;">اضافه کردن دارو</button>
             </form>
 </div>
-<script>
-        document.addEventListener('DOMContentLoaded', function() {
-            flatpickr('#expiration-date-input', {
-                dateFormat: 'Y/m', // فرمت فقط سال و ماه (مثلاً 2025/10)
-                maxDate: '2100-12', // حداکثر سال مجاز
-                minDate: '1900-01', // حداقل سال مجاز
-                disableMobile: true, // غیرفعال کردن نسخه موبایل برای کنترل بهتر
-                onChange: function(selectedDates, dateStr, instance) {
-                    if (selectedDates.length > 0) {
-                        const date = selectedDates[0];
-                        const year = date.getFullYear();
-                        const month = String(date.getMonth() + 1).padStart(2, '0');
-                        instance.setDate(`${year}/${month}`, true); // اجبار به فرمت Y/m
-                    }
-                }
-            });
-        });
-    </script>
+
 {% endblock %}
