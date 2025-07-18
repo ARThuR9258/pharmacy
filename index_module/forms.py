@@ -18,11 +18,10 @@ class DrugForm(forms.ModelForm):
                 'class': 'form-control',
                 'placeholder': 'دسته بندی دارو'
             }),
-            'expiration_date': forms.DateInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'تاریخ انقضا دارو',
-                'type': 'date',
-                'format': '%Y-%m-%d'
+            'expiration_date': forms.TextInput(attrs={
+                'class': 'form-control form-control-lg',
+                'placeholder': 'YYYY/MM (مثال: 2025/10)',
+                'id': 'expiration-date-input'  # ID برای جاوااسکریپت
             }),
             'description': forms.TextInput(attrs={
                 'class': 'form-control',
@@ -34,3 +33,17 @@ class DrugForm(forms.ModelForm):
                 'type': 'text'
             }),
         }
+
+    def clean_expiration_date(self):
+        expiration_date = self.cleaned_data.get('expiration_date')
+        if expiration_date:
+            try:
+                year, month = map(int, expiration_date.split('/'))
+                if not (1 <= month <= 12 and 1900 <= year <= 2100):  # محدوده منطقی
+                    raise ValueError
+                # تبدیل به تاریخ کامل (روز اول ماه) برای سازگاری با DateField
+                expiration_date = f"{year}-{month:02d}-01"
+                self.cleaned_data['expiration_date'] = expiration_date
+            except (ValueError, AttributeError):
+                raise forms.ValidationError("فرمت تاریخ انقضا باید YYYY/MM باشد (مثال: 2025/10).")
+        return expiration_date
