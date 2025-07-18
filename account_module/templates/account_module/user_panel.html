@@ -4,159 +4,103 @@
 {% block content %}
 
 <style>
-    /* تنظیمات کلی */
+    .countdown {
+        margin: 20px 0;
+        padding: 15px;
+        background: #f1f1f1;
+        border-radius: 5px;
+        text-align: center;
+        font-size: 18px;
+        color: #333;
+    }
+    .countdown span {
+        font-weight: bold;
+        color: #d9534f; /* رنگ قرمز برای هشدار */
+    }
     .user-panel {
-        max-width: 700px;
-        margin: 30px auto;
+        max-width: 800px;
+        margin: 20px auto;
         padding: 20px;
-        background: linear-gradient(135deg, #ffffff, #f7fafc);
-        border-radius: 10px;
-        box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
-        font-family: 'Vazir', sans-serif;
+        background: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
-
-    /* عنوان */
-    .user-info h2 {
-        color: #1a202c;
-        font-size: 1.8rem;
-        font-weight: 600;
-        margin-bottom: 20px;
-        text-align: center;
-        letter-spacing: 0.3px;
-    }
-
-    /* اطلاعات کاربر */
     .user-info p {
-        font-size: 1.1rem;
-        color: #4a5568;
+        font-size: 16px;
+        color: #555;
         margin: 10px 0;
-        padding: 8px;
-        background: #fff;
-        border-radius: 6px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
     }
-    .user-info p strong {
-        color: #2d3748;
-        font-weight: 500;
-    }
-
-    /* گروه دکمه‌ها */
-    .button-group {
+    .flex-container {
         display: flex;
-        justify-content: center;
         gap: 10px;
-        margin-top: 20px;
-        flex-wrap: wrap;
+        margin: 20px 0;
     }
-
-    /* دکمه عمومی */
     .btn {
-        background-color: #38a169;
-        border: none;
-        padding: 10px 0;
-        border-radius: 6px;
-        color: #ffffff;
-        font-size: 0.9rem;
-        font-weight: 500;
+        padding: 10px 20px;
         text-decoration: none;
-        transition: all 0.2s ease;
-        width: 140px; /* عرض کوچکتر */
-        text-align: center;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 2px 6px rgba(56, 161, 105, 0.2);
+        border-radius: 5px;
+        background: #68a16b;
+        color: #ffffff;
+        transition: all 0.3s ease;
     }
     .btn:hover {
-        background-color: #2f855a;
         transform: translateY(-2px);
-        box-shadow: 0 4px 10px rgba(56, 161, 105, 0.3);
+        box-shadow: 0 5px 15px rgba(212, 175, 55, 0.5);
     }
-
-    /* دکمه خروج */
-    .btn-logout {
-        background-color: #e53e3e;
-        border: none;
-        padding: 10px 0;
-        border-radius: 6px;
-        color: #ffffff;
-        font-size: 0.9rem;
-        font-weight: 500;
-        width: 140px; /* هم‌اندازه با دکمه دیگر */
-        text-align: center;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.2s ease;
-        box-shadow: 0 2px 6px rgba(229, 62, 62, 0.2);
-    }
-    .btn-logout:hover {
-        background-color: #c53030;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 10px rgba(229, 62, 62, 0.3);
-    }
-    .btn-logout i {
-        margin-left: 6px;
-    }
-
-    /* فوتر */
     .footer-text {
-        font-size: 0.85rem;
-        color: #718096;
+        font-size: 0.8em;
+        color: #666;
         margin-top: 20px;
         text-align: center;
-        font-style: italic;
-    }
-
-    /* ریسپانسیو */
-    @media (max-width: 600px) {
-        .user-panel {
-            margin: 15px;
-            padding: 15px;
-        }
-        .user-info h2 {
-            font-size: 1.4rem;
-        }
-        .user-info p {
-            font-size: 0.9rem;
-            flex-direction: column;
-            text-align: center;
-            padding: 6px;
-        }
-        .button-group {
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-        }
-        .btn, .btn-logout {
-            width: 100%;
-            max-width: 200px;
-        }
     }
 </style>
 
-
-
 <div class="user-panel">
-    <div class="user-info">
-        <h2>پنل کاربر - خوش آمدید، {{ user.username }}!</h2>
-        <p><strong>نام کاربری:</strong> <span>{{ user.username }}</span></p>
-        <p><strong>شماره موبایل:</strong> <span>{{ user.phone_number }}</span></p>
-        <p><strong>وضعیت تأیید:</strong> <span>{% if user.is_verified %}تأیید شده{% else %}تأیید نشده{% endif %}</span></p>
-        <p><strong>داروهای ثبت شده:</strong> <span>{{ medicine_count }}</span></p>
-        <p><strong>داروهایی که 6 ماه به انقضاء دارند:</strong> <span>{{ expiring_soon }}</span></p>
+    <h2>پنل کاربر - خوش آمدید، {{ user.username }}!</h2>
 
-        <div class="button-group">
-            <a href="{% url 'forgot_password_page' %}" class="btn">تغییر رمز عبور</a>
-            <form method="POST" action="{% url 'logout' %}">
-                {% csrf_token %}
-                <button type="submit" class="btn-logout"><i class="bi bi-box-arrow-right"></i> خروج از حساب</button>
-            </form>
-        </div>
+    <p>نام کاربری: {{ user.username }}</p>
+    <p>شماره موبایل: {{ user.phone_number }}</p>
+    <p>وضعیت تأیید: {% if user.is_verified %}تأیید شده{% else %}تأیید نشده{% endif %}</p>
+    <p>داروهای ثبت شده: {{ medicine_count }}</p>
+    <p>داروهایی که 6 ماه به انقضاء دارند: {{ expiring_soon }}</p>
+
+    <div class="countdown" id="countdown">
+        روزهای باقی‌مانده تا پایان اشتراک: <span id="days">محاسبه...</span>
     </div>
+
+    <div class="flex-container">
+        <a href="{% url 'forgot_password_page' %}" class="btn">تغییر رمز عبور</a>
+        <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn"><i class="bi bi-box-arrow-right"></i> خروج از حساب</button>
+        </form>
+    </div>
+
     <p class="footer-text">© 2025 مدیریت دارو | طراحی شده در 13 ژوئیه 2025، 12:52 PM +03</p>
 </div>
+
+<script>
+    // محاسبه روزهای باقی‌مانده
+    function updateCountdown() {
+        const joinDate = new Date("{{ user.date_joined|date:'Y-m-d' }}"); // تاریخ عضویت کاربر
+        const oneYearFromJoin = new Date(joinDate);
+        oneYearFromJoin.setFullYear(joinDate.getFullYear() + 1); // یک سال اضافه کردن
+        const now = new Date();
+        const diffTime = oneYearFromJoin - now; // اختلاف زمان تا پایان یک سال
+        const daysLeft = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // تبدیل به روز
+
+        const daysElement = document.getElementById('days');
+        if (daysLeft > 0) {
+            daysElement.textContent = daysLeft;
+        } else {
+            daysElement.textContent = "0 (اشتراک منقضی شده)";
+        }
+    }
+
+    // اجرا وقتی صفحه لود می‌شه
+    document.addEventListener('DOMContentLoaded', updateCountdown);
+    // به‌روزرسانی هر روز
+    setInterval(updateCountdown, 24 * 60 * 60 * 1000); // هر 24 ساعت چک کن
+</script>
+
 {% endblock %}

@@ -195,3 +195,5 @@ class UserPanelView(LoginRequiredMixin,View):
         'expiring_soon': self.get_queryset().count()
         }
         return render(request ,self.template_name,context)
+
+
