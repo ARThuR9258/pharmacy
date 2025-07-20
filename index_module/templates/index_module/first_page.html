@@ -1,0 +1,59 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+{% block title %}خوش‌آمدید به مدیریت انبار داروخانه{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <div class="card p-5 shadow-lg border-0 text-center" style="max-width: 600px; margin: 0 auto; background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(230, 240, 245, 0.85)); border-radius: 20px; transition: transform 0.3s ease;">
+        <h1 class="mb-4" style="font-size: 2.5rem; font-weight: 700; color: #2c3e50; text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);">خوش‌آمدید به مدیریت انبار داروخانه</h1>
+        <p class="mb-5" style="font-size: 1.2rem; color: #7f8c8d;">لطفاً یکی از گزینه‌های زیر را انتخاب کنید:</p>
+
+        <div class="d-grid gap-3">
+            <a href="{% url 'search_drug' %}" class="btn custom-btn-lg" style="background: linear-gradient(90deg, #6c757d, #495057); color: #fff; border: none; border-radius: 12px; padding: 12px 25px; font-size: 1.2rem; box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4); transition: all 0.3s ease;">
+                <i class="fas fa-search me-2"></i>جستجوی دارو
+            </a>
+            <a href="{% url 'add_drug' %}" class="btn custom-btn-lg" style="background: linear-gradient(90deg, #6c757d, #495057); color: #fff; border: none; border-radius: 12px; padding: 12px 25px; font-size: 1.2rem; box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4); transition: all 0.3s ease;">
+                <i class="fas fa-plus-circle me-2"></i>اضافه کردن دارو
+            </a>
+            <a href="{% url 'expired-drugs' %}" class="btn custom-btn-lg" style="background: linear-gradient(90deg, #6c757d, #495057); color: #fff; border: none; border-radius: 12px; padding: 12px 25px; font-size: 1.2rem; box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4); transition: all 0.3s ease;">
+                <i class="fas fa-exclamation-triangle me-2"></i>داروهای انقضا نزدیک
+            </a>
+            <a href="{% url 'user_panel_page' %}" class="btn custom-btn-lg" style="background: linear-gradient(90deg, #6c757d, #495057); color: #fff; border: none; border-radius: 12px; padding: 12px 25px; font-size: 1.2rem; box-shadow: 0 5px 15px rgba(108, 117, 125, 0.4); transition: all 0.3s ease;">
+                <i class="fas fa-user me-2"></i>پنل کاربری
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .custom-btn-lg {
+        display: inline-block;
+        text-decoration: none;
+        font-weight: 600;
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .custom-btn-lg:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .custom-btn-lg:active {
+        transform: scale(0.98);
+    }
+
+    /* Dark Mode Styles */
+    .dark-mode .card {
+        background: linear-gradient(135deg, rgba(45, 55, 72, 0.9), rgba(30, 58, 138, 0.7));
+        color: #f8f9fa;
+    }
+
+    .dark-mode .custom-btn-lg {
+        color: #fff;
+    }
+
+    .dark-mode .custom-btn-lg:hover {
+        box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2);
+    }
+</style>
+{% endblock %}

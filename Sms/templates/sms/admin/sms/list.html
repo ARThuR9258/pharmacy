@@ -1,0 +1,257 @@
+{% extends 'Layouts/admin-master.html' %}
+{% load static public_tags acl_tags %}
+
+{% block title %} لیست مدرس ها {% endblock %}
+
+{% block content %}
+
+    <div class="row">
+
+        {% if messages %}
+            {% for item in messages %}
+                <script>
+                    Swal.fire({
+                        title: "تبریک ! 🥳",
+                        icon: 'success',
+                        text: '{{ item }}',
+                        type: "success",
+                        cancelButtonColor: 'var(--primary)',
+                        confirmButtonText: 'اوکی',
+                    })
+                </script>
+            {% endfor %}
+        {% endif %}
+
+        <div class="col-lg-12">
+            <div class="card-box">
+                <div class="card-block">
+                    <h4 class="card-title">لیست مدرس ها</h4>
+
+                    <hr>
+                    <form id="search">
+                        <div class="form-group">
+                            <div class="row">
+                                {% include 'Admin/Filters/search_input.html' %}
+                                {% include 'Admin/Filters/limit_select_box.html' %}
+                            </div>
+                        </div>
+                    </form>
+
+
+                    {% if user|has_perm:'teacher_create' %}
+                        <a class="btn btn-primary pull-right" href="{% url 'teachers-create' %}">افزودن مدرس جدید</a>
+
+                    {% endif %}
+
+
+
+                    <span id="list">
+                                                                                                {% if object_list %}
+                                                                                                    <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>ردیف</th>
+                        <th>نام</th>
+                        <th>نام خانوادگی</th>
+                        <th>شماره موبایل</th>
+                        <th>کد ملی</th>
+                        <th>عکس</th>
+                        <th>فایل رزمه</th>
+                        <th>شماره حساب</th>
+                        <th>وضعیت</th>
+                        <th>اعمال</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for item in object_list %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+
+                            <td><a href="{% url 'teachers-detail' item.id %}">{{ item.user.first_name | default:'---' }}</a></td>
+
+                            <td>{{ item.user.last_name | default:'---' }}</td>
+
+                            <td>{{ item.user.phone | default:'---' }}</td>
+
+                            <td>{{ item.user.national_id | default:'---' }}</td>
+
+                            <td>
+                                <img src="{{ item.user.get_avatar }}" alt="{{ item.phone }}" width="60">
+                            </td>
+
+                            <td>
+                                <a class="btn-sm btn-danger" target="_blank" href="{{ item.get_resume_file }}">دانلود فایل</a>
+                            </td>
+
+                             <td>{{ item.bank_account_number | default:'---' }}</td>
+
+                            <td>
+                                  {% if user|has_perm:'teacher_change_status' %}
+                                      <a role="button"
+                                         ng-click="ChangeStatusModal({{ item.id }}, '{{ item.is_approved }}')"
+                                         class="label label-{% if item.is_approved %}success{% else %}danger{% endif %}-border rounded">
+                                    {{ item.get_approved }}
+                                </a>
+                                  {% else %}
+                                      <a role="button"
+                                         class="label label-{% if item.is_approved %}success{% else %}danger{% endif %}-border rounded">
+                                    {{ item.get_approved }}
+                                </a>
+                                  {% endif %}
+                            </td>
+
+                            <td>
+                                <div class="buttons ">
+                                    <form action="{% url 'teachers-delete' item.user.id %}"
+                                          id="delete_form_{{ item.id }}"
+                                          method="post">
+                                        {% csrf_token %}
+
+                                        {% if user|has_perm:'teacher_edit' %}
+                                            <a href="{% url 'teachers-update' item.user.id %}"
+                                               class="btn btn-primary btn-action mr-1"
+                                               data-toggle="tooltip" title=""
+                                               data-original-title="ویرایش"><i
+                                                    class="fas fa-pencil-alt"></i><i
+                                                    class="fa fa-pencil"> </i> </a>
+                                        {% endif %}
+
+                                        {% if user|has_perm:'teacher_delete' %}
+                                            <button type="button"
+                                                    data-original-title="حذف"
+                                                    data-toggle="tooltip"
+                                                    onclick="DeleteConfirm('{{ item.id }}')"
+                                                    class="delete_button btn btn-danger btn-action"><i
+                                                    class="fa fa-trash"> </i>
+                                        </button>
+                                        {% endif %}
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    </table>
+                                                                                                {% else %}
+                                                                                                    <h4 style="text-align: center; padding: 40px">
+                                موردی یافت نشد.
+                         </h4>
+                                                                                                {% endif %}
+
+
+                        {% include 'Admin/pagination.html' with page_obj=page_obj %}
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        {% if user|has_perm:'teacher_change_status' %}
+            <!-- Modal -->
+            <div class="modal fade bd-example-modal-lg" id="changeStatusModal" tabindex="-1" role="dialog"
+                 aria-labelledby="changeStatusModalTitle" aria-hidden="true" dir="rtl"
+                 style="text-align: right !important; margin-top: 250px">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+
+                    <div class="modal-content">
+                        <div class="modal-header" style="width: 100%!important;">
+                            <h5 class="modal-title"
+                                id="exampleModalLongTitle">تغییر وضعیت</h5>
+
+                            <button type="button" class="close ml-2" data-dismiss="modal"
+                                    style="position: absolute!important;left: 0!important; top: 10px"
+                                    aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+
+                        <div class="modal-body {% if field.errors %}has-danger{% endif %}">
+                            <label class="form-label" for="id_{{ field.name }}">
+                                تغییر وضعیت
+                            </label>
+                            <select name="is_approved" class="form-control" id="" ng-model="status">
+                                <option ng-selected="status == 0" value="0">رد</option>
+                                <option ng-selected="status == 1" value="1">تایید</option>
+                            </select>
+                        </div>
+
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal" ng-disabled="is_submited">
+                                بستن
+                            </button>&nbsp;
+                            <button type="button" ng-click="ChangeStatus();" ng-disabled="is_submited"
+                                    class="btn btn-primary">ذخیره
+                            </button>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        {% endif %}
+
+    </div>
+
+{% endblock %}
+
+{% block Scripts %}
+    <script>
+        function DeleteConfirm(id) {
+            Swal.fire({
+                title: "هشدار ! ",
+                icon: 'warning',
+                text: "آیا از حذف این آیتم اطمینان دارید؟",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#00aced',
+                cancelButtonColor: '#e6294b',
+                confirmButtonText: 'حذف',
+                cancelButtonText: 'انصراف'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $('#delete_form_' + id).submit();
+                }
+            })
+        }
+    </script>
+
+    <script>
+        app.controller('myCtrl', function ($scope, $http) {
+            $scope.id = null;
+            $scope.status = {};
+            $scope.is_submited = false;
+
+            $scope.ChangeStatusModal = function (id, status) {
+                if (status == 'True') {
+                    status = 1
+                } else {
+                    status = 0
+                }
+
+                $scope.id = id;
+                $scope.status = status;
+                $('#changeStatusModal').modal('show');
+            }
+
+            $scope.ChangeStatus = function () {
+                $scope.is_submited = true;
+
+                var data = {
+                    "is_approved": $scope.status
+                };
+
+                $http.patch(`/api/teacher/${$scope.id}/`, data).then(res => {
+                    createToast('success', 'وضعیت آیتم مورد نظر با موفقیت تغییر کرد.');
+                    $scope.is_submited = false;
+                    setTimeout(() => {
+                        location.reload()
+                    }, 100)
+                }).catch(err => {
+                    $scope.loading = false;
+                    parseError(err, 'خطایی رخ داد');
+                });
+            }
+        });
+    </script>
+{% endblock %}

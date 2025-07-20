@@ -1,0 +1,106 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+{% block title %}پنل کاربر{% endblock %}
+{% block content %}
+
+<style>
+    .countdown {
+        margin: 20px 0;
+        padding: 15px;
+        background: #f1f1f1;
+        border-radius: 5px;
+        text-align: center;
+        font-size: 18px;
+        color: #333;
+    }
+    .countdown span {
+        font-weight: bold;
+        color: #d9534f; /* رنگ قرمز برای هشدار */
+    }
+    .user-panel {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .user-info p {
+        font-size: 16px;
+        color: #555;
+        margin: 10px 0;
+    }
+    .flex-container {
+        display: flex;
+        gap: 10px;
+        margin: 20px 0;
+    }
+    .btn {
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+        background: #68a16b;
+        color: #ffffff;
+        transition: all 0.3s ease;
+    }
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(212, 175, 55, 0.5);
+    }
+    .footer-text {
+        font-size: 0.8em;
+        color: #666;
+        margin-top: 20px;
+        text-align: center;
+    }
+</style>
+
+<div class="user-panel">
+    <h2>پنل کاربر - خوش آمدید، {{ user.username }}!</h2>
+
+    <p>نام کاربری: {{ user.username }}</p>
+    <p>شماره موبایل: {{ user.phone_number }}</p>
+    <p>وضعیت تأیید: {% if user.is_verified %}تأیید شده{% else %}تأیید نشده{% endif %}</p>
+    <p>داروهای ثبت شده: {{ medicine_count }}</p>
+    <p>داروهایی که 6 ماه به انقضاء دارند: {{ expiring_soon }}</p>
+
+    <div class="countdown" id="countdown">
+        روزهای باقی‌مانده تا پایان اشتراک: <span id="days">محاسبه...</span>
+    </div>
+
+    <div class="flex-container">
+        <a href="{% url 'reset_password_page' %}" class="btn">تغییر رمز عبور</a>
+        <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn"><i class="bi bi-box-arrow-right"></i> خروج از حساب</button>
+        </form>
+    </div>
+
+    <p class="footer-text">© 2025 مدیریت دارو | طراحی شده در 13 ژوئیه 2025، 12:52 PM +03</p>
+</div>
+
+<script>
+    // محاسبه روزهای باقی‌مانده
+    function updateCountdown() {
+        const joinDate = new Date("{{ user.date_joined|date:'Y-m-d' }}"); // تاریخ عضویت کاربر
+        const oneYearFromJoin = new Date(joinDate);
+        oneYearFromJoin.setFullYear(joinDate.getFullYear() + 1); // یک سال اضافه کردن
+        const now = new Date();
+        const diffTime = oneYearFromJoin - now; // اختلاف زمان تا پایان یک سال
+        const daysLeft = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // تبدیل به روز
+
+        const daysElement = document.getElementById('days');
+        if (daysLeft > 0) {
+            daysElement.textContent = daysLeft;
+        } else {
+            daysElement.textContent = "0 (اشتراک منقضی شده)";
+        }
+    }
+
+    // اجرا وقتی صفحه لود می‌شه
+    document.addEventListener('DOMContentLoaded', updateCountdown);
+    // به‌روزرسانی هر روز
+    setInterval(updateCountdown, 24 * 60 * 60 * 1000); // هر 24 ساعت چک کن
+</script>
+
+{% endblock %}

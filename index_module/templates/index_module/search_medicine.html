@@ -1,0 +1,190 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+{% block title %}جستجوی دارو{% endblock %}
+{% block content %}
+
+<style>
+    .table-container {
+        overflow-x: auto; /* اسکرول افقی */
+        -webkit-overflow-scrolling: touch; /* اسکرول نرم‌تر توی موبایل */
+        margin: 20px 0;
+        padding: 0 10px;
+        text-align: center;
+    }
+
+    table {
+        width: 100%;
+        min-width: 800px; /* حداقل عرض برای فعال شدن اسکرول */
+        border-collapse: collapse;
+        background-color: #ffffff;
+        border: 1px solid #ddd;
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: center;
+        border: 1px solid #ddd;
+        white-space: nowrap; /* جلوگیری از شکستن متن */
+    }
+
+    th {
+        background-color: #2c2f33;
+        color: #ffffff;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    tr:hover {
+        background-color: #ddd;
+    }
+
+    .btn-edit, .btn-delete {
+        display: inline-block;
+        padding: 5px 10px;
+        margin: 0 5px;
+        text-decoration: none;
+        color: #ffffff;
+    }
+
+    .btn-edit {
+        background-color: #4a90e2;
+    }
+
+    .btn-delete {
+        background-color: #e74c3c;
+    }
+
+    .pagination {
+        margin-top: 20px;
+        text-align: center;
+        justify-content: center;
+
+    }
+
+    .btn-pag, .current-page {
+        padding: 5px 10px;
+        margin: 0 5px;
+        text-decoration: none;
+        color: #ffffff;
+        background-color: #38a169;
+        border-radius: 3px;
+    }
+
+    .current-page {
+        background-color: #b3c6b8;
+        cursor: default;
+    }
+
+    .btn-pag:hover {
+        background-color: #3c3f43;
+    }
+
+    /* ریسپانسیو برای موبایل (کمتر از 768px) */
+    @media (max-width: 768px) {
+        .table-container {
+            margin: 10px 0;
+            padding: 0 5px;
+        }
+
+        table {
+            min-width: 800px; /* حفظ حداقل عرض برای اسکرول */
+        }
+
+        th, td {
+            padding: 8px;
+            font-size: 0.9em;
+        }
+
+        .btn-edit, .btn-delete {
+            display: block;
+            margin: 5px 0;
+        }
+
+        .pagination {
+            margin-top: 10px;
+        }
+
+        .btn-pag, .current-page {
+            padding: 4px 8px;
+            margin: 0 3px;
+        }
+    }
+</style>
+
+    <div class="table-container">
+        <h2>جستجوی دارو</h2>
+
+        <!-- فرم جستجو -->
+        <form method="get">
+            <div>
+                <input type="text" name="medicine_name" placeholder="جستجوی دارو..." value="{{ search_query }}" style="padding: 10px; border: 1px solid #ddd; border-radius: 5px; flex: 1;">
+                <button type="submit" style="background: #577157; border: none; padding: 10px 20px; border-radius: 5px; color: #ffffff; transition: all 0.3s ease;">جستجو</button>
+            </div>
+        </form>
+
+        <!-- لینک اضافه کردن دارو جدید -->
+        <a href="{% url 'add_drug' %}" style="background: #577157; border: none; padding: 10px 20px; border-radius: 5px; color: #ffffff; text-decoration: none; transition: all 0.3s ease; display: block; margin-bottom: 20px;">اضافه کردن دارو جدید</a>
+
+        <!-- پیام عدم وجود دارو -->
+        {% if is_empty %}
+            <div style="background-color: #fff3cd; color: #856404; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
+                دارویی با نام "{{ search_query }}" یافت نشد!
+            </div>
+        {% endif %}
+
+        <!-- جدول داروها -->
+        {% if medicines %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>نام دارو</th>
+                        <th>تعداد</th>
+                        <th>دسته‌بندی</th>
+                        <th>تاریخ انقضا</th>
+                        <th>توضیحات</th>
+                        <th>تاریخ ورود</th>
+                        <th>عملیات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for medicine in medicines %}
+                       <tr>
+                            <td title="{{ medicine.name }}">{{ medicine.name|truncatechars:15}}</td>
+                            <td title="{{ medicine.number }}">{{ medicine.number|truncatechars:15 }}</td>
+                            <td title="{{ medicine.category }}">{{ medicine.category|default:"دسته بندی ندارد"|truncatechars:15 }}</td>
+                            <td title="{{ medicine.expiration_date }}">{{ medicine.expiration_date|date:"Y,m,d" |default:"تاریخ انقضا ندارد"|truncatechars:15}}</td>
+                            <td title="{{ medicine.description }}">{{ medicine.description|default:"توضیحات ندارد"|truncatechars:15 }}</td>
+                            <td title="{{ medicine.date_in_warehouse }}">{{ medicine.date_in_warehouse|default:"تاریخ ورود به انبار وجود ندارد"|truncatechars:15 }}</td>
+                            <td class="action-links">
+                                <a href="{% url 'edit_drug' medicine.id %}"><i class="bi bi-pencil"></i> ویرایش</a>
+                                <a href="{% url 'delete_drug' medicine.id %}"><i class="bi bi-trash"></i> حذف</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <!-- پیجینیشن -->
+            {% if page_obj.has_other_pages %}
+                <div class="pagination">
+                    {% if page_obj.has_previous %}
+                        <a href="?page={{ page_obj.previous_page_number }}" class="btn-pag">قبلی</a>
+                    {% endif %}
+                    {% for pageNumber in paginator.page_range %}
+                        {% if page_obj.number == pageNumber %}
+                            <span class="current-page">{{ pageNumber }}</span>
+                        {% else %}
+                            <a href="?page={{ pageNumber }}" class="btn-pag">{{ pageNumber }}</a>
+                        {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}" class="btn-pag">بعدی</a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+
+{% endblock %}

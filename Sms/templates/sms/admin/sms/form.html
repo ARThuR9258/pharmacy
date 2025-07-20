@@ -1,0 +1,190 @@
+{% extends 'Layouts/admin-master.html' %}
+{% load i18n public_tags acl_tags class_tags %}
+
+{% block title %} ارسال پیامک {% endblock %}
+
+{% block content %}
+
+    <div class="row" ng-init="init()">
+       <div class="col-lg-12">
+                <div class="card-box">
+                    <h2 class="card-title"><b>ارسال پیامک </b></h2>
+
+                    <div class="form-group col-lg-12 col-sm-12 col-md-12">
+                        <label class="control-label col-lg-2" style="width: auto!important;"
+                               for="message">متن پیامک:</label>
+
+                        <div class="col-md-10">
+                            <textarea id="message" ng-model="message" class="form-control" rows="8"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-lg-12 col-sm-12 col-md-12" style="margin-right: 50px">
+                        <label class="control-label col-lg-2" style="width: auto!important;"
+                               for="to">به:</label>
+
+                        <div class="col-md-10">
+                            <select ng-model="to" id="to" class="form-control">
+                                <option value="user">کاربر</option>
+                                <option value="class">کلاس</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <span ng-show="to == 'user'" id="list" style="margin-top: 80px!important;">
+                        {% if object_list %}
+                            <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>ردیف</th>
+                        <th>نام</th>
+                        <th>نام خانوادگی</th>
+                        <th>نام پدر</th>
+                        <th>تاریخ ثبت نام</th>
+                        <th>وضعیت</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for item in object_list %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+
+                            <td>{{ item.first_name | default:'---' }}</td>
+
+                            <td>{{ item.last_name | default:'---' }}</td>
+
+                            <td>{{ item.father_name | default:'---' }}</td>
+
+                            <td>{{ item.created_at | jdate | default:'---' }}</td>
+
+                            <td>
+                                <div class="buttons ">
+                                        <input type="checkbox" ng-click="AddNewUserPhone('{{ item.id }}')">
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    </table>
+                        {% else %}
+                            <h4 style="text-align: center; padding: 40px">
+                                موردی یافت نشد.
+                         </h4>
+                        {% endif %}
+                    </span>
+
+                    <div ng-show="to == 'class'" class="form-group col-lg-12 col-sm-12 col-md-12"
+                         style="margin-right: 30px">
+                        <label class="control-label col-lg-2" style="width: auto!important;"
+                               for="to">کلاس:</label>
+
+                        <div class="col-md-10">
+                            <select ng-model="class" id="to" class="form-control">
+                                {% for item in classes %}
+                                    <option value="{{ item.id }}">{{ item.title }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="m-1-25 m-b-20" style="float: left !important;">
+                            <a href="{{ request.META.HTTP_REFERER }}"
+                               ng-disabled="is_submited"
+                               class="btn btn-danger btn-border-radius waves-effect">
+                                بازگشت
+                            </a>
+                            <button class="btn btn-info btn-border-radius waves-effect" type="button"
+                                    ng-click="Submit()" ng-disabled="is_submited || !message">ثبت
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+    </div>
+
+{% endblock %}
+
+{% block Scripts %}
+    <script>
+        kamaDatepicker('id_date', {
+            placeholder: 'تاریخ',
+            buttonsColor: 'blue',
+            markHolidays: true
+        });
+        $("#id_date").attr('autocomplete', 'off');
+
+        $('#id_date').on('change', function () {
+            $('#id_date').val($('#id_date').val().replaceAll('/', '-'))
+        })
+
+    </script>
+
+    <script>
+        {% if messages %}
+            {% for item in messages %}
+                createToast('success', '{{ item }}');
+            {% endfor %}
+        {% endif %}
+    </script>
+
+    <script>
+        app.controller('myCtrl', function ($scope, $http) {
+            $scope.id = null;
+            $scope.message = null;
+            $scope.to = 'user';
+            $scope.users = [];
+            $scope.is_submited = '';
+
+            $scope.$watch('class', function () {
+                if ($scope.class) {
+                    $http.get(`/api/class/${$scope.class}/students/`).then(res => {
+                        $scope.is_submited = false;
+                        $scope.users = res['data'];
+                    }).catch(err => {
+                        $scope.is_submited = false;
+                        parseError(err, 'خطایی رخ داد');
+                    });
+                }
+            });
+
+            $scope.AddNewUserPhone = function (id) {
+                let index = $scope.users.indexOf(id);
+                if (index > -1) {
+                    $scope.users.splice(index, 1);
+                } else {
+                    $scope.users.push(id)
+                }
+            }
+
+            $scope.Submit = function () {
+                if (!$scope.message) {
+                    createToast('error', 'لطفا متن پیامک را وارد کنید.');
+                    return;
+                }
+
+                if ($scope.users.length == 0) {
+                    createToast('error', 'لطفا حداقل یک شماره موبایل برای ارسال پیامک انتخاب کنید.');
+                    return;
+                }
+
+                $scope.is_submited = true;
+
+                var data = {
+                    "users": $scope.users,
+                    "message": $scope.message,
+                };
+
+                $http.post('/api/sms/group/send/', data).then(res => {
+                    createToast('success', 'با موفقیت ارسال شد.');
+                    $scope.is_submited = false;
+                }).catch(err => {
+                    $scope.is_submited = false;
+                    parseError(err, 'خطایی رخ داد');
+                });
+            }
+        });
+    </script>
+{% endblock %}

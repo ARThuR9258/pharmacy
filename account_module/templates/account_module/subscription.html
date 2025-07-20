@@ -1,0 +1,196 @@
+{% extends 'shared/base.html' %}
+{% load static %}
+{% block title %}خرید اشتراک{% endblock %}
+{% block content %}
+<link href="https://cdn.jsdelivr.net/npm/vazir-font@32.105.0/dist/font-face.css" rel="stylesheet">
+<style>
+    /* Reset and Base Styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Vazir', sans-serif;
+    }
+
+    /* Content Container */
+    .content {
+        width: 100%;
+        background-color: rgba(208, 241, 227, 0.68);
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 1rem;
+        direction: rtl;
+        border-radius: 30px;
+    }
+
+    /* Spacing Utility */
+    .space-y-6 > * + * {
+        margin-top: 1.5rem;
+    }
+    .space-y-8 > * + * {
+        margin-top: 2rem;
+    }
+
+    /* Text Styles */
+    .text-center {
+        text-align: center;
+    }
+    .text-4xl {
+        font-size: 2.25rem;
+        line-height: 2.5rem;
+    }
+    .font-bold {
+        font-weight: 700;
+    }
+    .text-gray-900 {
+        color: #1f2937;
+    }
+    .text-gray-600 {
+        color: #4b5563;
+    }
+    .text-xl {
+        font-size: 1.25rem;
+        line-height: 1.75rem;
+    }
+    .font-semibold {
+        font-weight: 600;
+    }
+    .text-2xl {
+        font-size: 1.5rem;
+        line-height: 2rem;
+    }
+    .text-teal-500 {
+        color: rgba(7, 7, 7, 0.84);
+    }
+    .text-indigo-600 {
+        color: #4f46e5;
+    }
+    .text-gray-500 {
+        color: #6b7280;
+    }
+
+    /* Margin Utilities */
+    .mb-2 {
+        margin-bottom: 0.5rem;
+    }
+    .mb-4 {
+        margin-bottom: 1rem;
+    }
+    .mt-6 {
+        margin-top: 1.5rem;
+    }
+    .mt-8 {
+        margin-top: 2rem;
+    }
+
+    /* Plan Cards Container */
+    .plans-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+
+    }
+
+    /* Plan Card */
+    .plan-card {
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        background: #cedad1;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .plan-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+    .plan-card::before {
+        content: '★';
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 1.5rem;
+        color: #fef3c7;
+        opacity: 0.8;
+    }
+    .plan-card.pro::before {
+        content: '✨';
+        color: #fef3c7;
+    }
+
+    /* Button Styles */
+    button {
+        width: 100%;
+        background-color: #38a169;
+        color: #ffffff;
+        padding: 0.75rem 1.5rem;
+        border-radius: 9999px;
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    button:hover {
+        background-color: #38a169;
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Link Styles */
+    a {
+        color: #101013;
+        text-decoration: none;
+        font-weight: 500;
+    }
+    a:hover {
+        text-decoration: underline;
+        color: #4338ca;
+    }
+
+    /* Footer */
+    .footer {
+        font-size: 0.875rem;
+        color: #6b7280;
+        opacity: 0.8;
+    }
+</style>
+
+<div class="content space-y-8">
+    <!-- Header Section -->
+    <div class="text-center">
+        <h1 class="text-4xl font-bold text-gray-900 mb-4">خرید اشتراک مدیریت انبار</h1>
+        <p class="text-gray-600 text-xl">به سطح بعدی مدیریت داروخانه‌ات قدم بگذار!</p>
+    </div>
+
+    <!-- Plans Section -->
+    <div class="plans-container">
+        <!-- Basic Plan -->
+        <div class="plan-card">
+            <h2 class="text-xl font-semibold text-gray-900 mb-2">اشتراک پایه</h2>
+            <p class="text-gray-600 mb-4">مدیریت تا 50 دارو + گزارش ساده و خالی</p>
+            <p class="text-2xl font-bold text-teal-500 mb-4">39,000 تومان/ماه</p>
+            <button>تایید</button>
+        </div>
+
+        <!-- Pro Plan -->
+        <div class="plan-card pro">
+            <h2 class="text-xl font-semibold text-gray-900 mb-2">اشتراک حرفه‌ای</h2>
+            <p class="text-gray-600 mb-4">مدیریت نامحدود + گزارش پیشرفته</p>
+            <p class="text-2xl font-bold text-teal-500 mb-4">39,000 تومان/ماه</p>
+            <button>تایید</button>
+        </div>
+    </div>
+
+    <!-- More Info Link -->
+    <div class="text-center mt-6">
+        <a href="#">برای اطلاعات بیشتر، به اینجا مراجعه کنید.</a>
+    </div>
+
+    <!-- Footer -->
+    <div class="text-center footer">
+        <p>© 2025 مدیریت دارو | طراحی شده در 6 ژوئیه 2025، 02:46 PM BST</p>
+    </div>
+</div>
+{% endblock %}

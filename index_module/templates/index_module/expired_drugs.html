@@ -1,0 +1,155 @@
+{% extends 'shared/base.html' %}
+{% block title %}داروهای نزدیک به انقضا{% endblock %}
+{% block content %}
+    <div class="container mt-5">
+        <h2 class="text-white text-center mb-4 animated-title">داروهای نزدیک به انقضا (کمتر از ۶ ماه)</h2>
+        {% if expired_medicines %}
+            <div class="table-container">
+                <table class="table-modern">
+                    <thead>
+                        <tr>
+                            <th>نام</th>
+                            <th>تعداد</th>
+                            <th>دسته‌بندی</th>
+                            <th>تاریخ انقضا</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for medicine in expired_medicines %}
+                            <tr>
+                                <td title="{{ medicine.name }}">{{ medicine.name|truncatechars:15 }}</td>
+                                <td title="{{ medicine.number }}">{{ medicine.number|truncatechars:15 }}</td>
+                                <td title="{{ medicine.category }}">{{ medicine.category|default:"ندارد"|truncatechars:15 }}</td>
+                                <td title="{{ medicine.expiration_date }}">{{ medicine.expiration_date|date:"Y,m,d"|truncatechars:15 }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="alert alert-info text-white text-center p-4">
+                هیچ دارویی با تاریخ انقضا نزدیک وجود ندارد.
+            </div>
+        {% endif %}
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}">قبلی</a>
+            {% endif %}
+            {% for pageNumber in paginator.page_range %}
+                {% if page_obj.number == pageNumber %}
+                    <span class="current-page">{{ pageNumber }}</span>
+                {% else %}
+                    <a href="?page={{ pageNumber }}{% if search_query %}&q={{ search_query }}{% endif %}">{{ pageNumber }}</a>
+                {% endif %}
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}">بعدی</a>
+            {% endif %}
+        </div>
+        <div class="text-center mt-4">
+            <a href="{% url 'search_drug' %}" class="btn-modern">بازگشت به جستجو</a>
+        </div>
+
+    </div>
+    <style>
+        .container {
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .animated-title {
+            font-size: 2.5rem;
+            color: #ffffff;
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .table-container {
+            overflow-x: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+        .table-modern {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background-color: #e3e5e6;
+            color: #000000;
+        }
+            .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        gap: 10px;
+    }
+    .pagination a {
+        background-color: #38a169;
+        color: #ffffff;
+        padding: 8px 16px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 1rem;
+    }
+    .pagination a:hover {
+        background-color: #2f855a;
+    }
+    .pagination .current-page {
+        background-color: #2f855a;
+        color: #ffffff;
+        padding: 8px 16px;
+        border-radius: 4px;
+        font-weight: bold;
+    }
+        .table-modern th {
+            background-color: #97c699;
+            padding: 15px;
+            text-align: center;
+            border-bottom: 2px solid #050607;
+            font-weight: bold;
+        }
+        .table-modern td {
+            padding: 12px;
+            text-align: center;
+            vertical-align: middle;
+            border-bottom: 1px solid #40444b;
+        }
+        .table-modern tr:hover {
+            background-color: #ccced1;
+            transition: background-color 0.3s;
+        }
+        .alert {
+            background-color: #4c5c52;
+            border: none;
+            border-radius: 8px;
+        }
+        .btn-modern {
+            background-color: #4d5c5c;
+            color: #ffffff;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        .btn-modern:hover {
+            background-color: #5a6ea9;
+            transform: scale(1.05);
+            box-shadow: 0 2px 6px rgba(114, 137, 218, 0.5);
+        }
+        @media (max-width: 768px) {
+            .table-modern th,
+            .table-modern td {
+                padding: 8px;
+                font-size: 0.9rem;
+            }
+            .btn-modern {
+                padding: 10px 20px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+{% endblock %}

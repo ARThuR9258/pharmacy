@@ -1,0 +1,164 @@
+{% extends 'shared/base.html' %}
+{% load widget_tweaks %}
+{% block title %}ویرایش دارو{% endblock %}
+{% block content %}
+<style>
+    .container {
+        max-width: 600px;
+        margin: 20px auto;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    .form-title {
+        text-align: center;
+        color: #2d3748;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+    .drug-form {
+        padding: 20px;
+        background-color: #a0c6b7;
+        border-radius: 8px;
+    }
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+    .form-group label {
+        color: #2d3748;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+    .form-control {
+        background-color: #ffffff;
+        color: #2d3748;
+        border: 1px solid #e2e8f0;
+        border-radius: 4px;
+        padding: 10px;
+        font-size: 1.1rem;
+    }
+    .form-control::placeholder {
+        color: #718096;
+        opacity: 1;
+        font-size: 1.1rem;
+    }
+    .alert-danger {
+        background-color: #e53e3e;
+        color: #ffffff;
+        padding: 8px;
+        border-radius: 4px;
+        margin-top: 0.5rem;
+        font-size: 0.9rem;
+        text-align: right;
+    }
+    .btn-primary {
+        background-color: #221e1e;
+        color: #ffffff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1rem;
+        margin-right: 10px;
+    }
+    .btn-primary:hover {
+        background-color: #2f855a;
+    }
+    .btn-secondary {
+        background-color: #718096;
+        color: #ffffff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1rem;
+    }
+    .btn-secondary:hover {
+        background-color: #5a667f;
+    }
+</style>
+
+<div class="container">
+    <h2 class="form-title">ویرایش دارو</h2>
+    <form method="POST" class="drug-form">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="{{ form.name.id_for_label }}">نام دارو</label>
+            {{ form.name|add_class:"form-control form-control-lg floating-input"|attr:"placeholder=نام دارو" }}
+            {% if form.name.errors %}
+                <div class="alert alert-danger">
+                    {% for error in form.name.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.number.id_for_label }}">تعداد</label>
+            {{ form.number|add_class:"form-control form-control-lg floating-input"|attr:"placeholder=تعداد" }}
+            {% if form.number.errors %}
+                <div class="alert alert-danger">
+                    {% for error in form.number.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.category.id_for_label }}">دسته‌بندی</label>
+            {{ form.category|add_class:"form-control form-control-lg floating-input"|attr:"placeholder=دسته‌بندی" }}
+            {% if form.category.errors %}
+                <div class="alert alert-danger">
+                    {% for error in form.category.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.expiration_date.id_for_label }}">انقضاء دارو</label>
+            {{ form.expiration_date|add_class:"form-control form-control-lg floating-input"|attr:"placeholder=تاریخ انقضا" }}
+            {% if form.expiration_date.errors %}
+                <div class="alert alert-danger">
+                    {% for error in form.expiration_date.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.description.id_for_label }}">توضیحات</label>
+            {{ form.description|add_class:"form-control form-control-lg floating-input"|attr:"placeholder=توضیحات" }}
+            {% if form.description.errors %}
+                <div class="alert alert-danger">
+                    {% for error in form.description.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.date_in_warehouse.id_for_label }}">ورود به انبار</label>
+            {{ form.date_in_warehouse|add_class:"form-control form-control-lg floating-input"|attr:"placeholder=تاریخ ورود به انبار" }}
+            {% if form.date_in_warehouse.errors %}
+                <div class="alert alert-danger">
+                    {% for error in form.date_in_warehouse.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <button type="submit" class="btn btn-primary">ذخیره تغییرات</button>
+        <a href="{% url 'search_drug' %}" class="btn btn-secondary">بازگشت</a>
+    </form>
+</div>
+{% endblock %}
