@@ -110,7 +110,7 @@
                 </div>
                             <div class="form-group">
                 <label for="{{ form.expiration_date.id_for_label }}">تاریخ انقضاء دارو</label>
-                {{ form.expiration_date|add_class:"form-control form-control-lg"|attr:"placeholder=YYYY/MM (مثال: 2025/10)" }}
+                {{ form.expiration_date|add_class:"form-control form-control-lg"|attr:"type:date" }}
                 {% if form.expiration_date.errors %}
                     <ul class="errorlist">
                         {% for error in form.expiration_date.errors %}
