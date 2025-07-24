@@ -42,9 +42,15 @@ INSTALLED_APPS = [
     'index_module',
     'account_module',
     'widget_tweaks',
+    'daysale_module',
     'django_render_partial',
     'Sms'
 ]
+
+JALALI_DATE_DEFAULTS = {
+    'StrftimeDate': '%y/%m/%d',
+    'StaticUrl': '/static/jalali_date/',
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

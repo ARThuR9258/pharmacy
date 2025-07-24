@@ -1,0 +1,159 @@
+{% extends 'shared/base.html' %}
+{% load widget_tweaks %}
+{% block title %}مدیریت انبار داروخانه{% endblock %}
+{% block content %}
+<style>
+    .container {
+        max-width: 600px;
+        margin: 20px auto;
+        background-color: rgba(194, 218, 194, 0.6);
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    .form-title {
+        text-align: center;
+        color: #0e0e0e;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+    .drug-form {
+        padding: 20px;
+        background-color: rgba(53, 149, 100, 0.59);
+        border-radius: 8px;
+    }
+    .form-group {
+        margin-bottom: 1.5rem;
+
+    }
+    .form-group label {
+        color: #020202;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+    .form-control {
+        background-color: #ffffff;
+        color: #050505;
+        border: 1px solid #e2e8f0;
+        border-radius: 4px;
+        padding: 10px;
+        font-size: 1.1rem;
+    }
+    .form-control::placeholder {
+        color: rgba(87, 89, 90, 0.56);
+        opacity: 1;
+        font-size: 1.1rem;
+    }
+    .alert-danger {
+        background-color: #e53e3e;
+        color: #ffffff;
+        padding: 8px;
+        border-radius: 4px;
+        margin-top: 0.5rem;
+        font-size: 0.9rem;
+        text-align: right;
+    }
+    .btn-primary {
+        background-color: #221e1e;
+        color: #ffffff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1rem;
+    }
+    .btn-primary:hover {
+        background-color: #2f855a;
+    }
+</style>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<div class="container">
+    <h2 class="form-title">ثبت فروش روزانه داروخانه</h2>
+    <form method="post">
+                {% csrf_token %}
+                <div class="form-group text-right">
+                    <label for="{{ form.date.id_for_label }}">تاریخ امروز</label>
+                    {{ form.date|add_class:"form-control form-control-lg floating-input" }}
+                    {% if form.date.errors %}
+                        <div class="text-danger small mt-1">
+                            {% for error in form.date.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group text-right">
+                    <label for="{{ form.day.id_for_label }}">روز</label>
+                    {{ form.day|add_class:"form-control form-control-lg floating-input"  }}
+                    {% if form.day.errors %}
+                    	<div class="text-danger small mt-1">
+                        {% for error in form.day.errors %}
+                        	{{ error }}
+                        {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group text-right">
+                    <label for="{{ form.cash.id_for_label }}">فروش نقدی</label>
+                    {{ form.cash|add_class:"form-control form-control-lg floating-input"  }}
+                    {% if form.cash.errors %}
+                    	<div class="text-danger small mt-1">
+                        {% for error in form.cash.errors %}
+                        	{{ error }}
+                        {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group text-right">
+                    <label for="{{ form.pose_device.id_for_label }}">دستگاه کارتخوان</label>
+                    {{ form.pose_device|add_class:"form-control form-control-lg floating-input"  }}
+                    {% if form.pose_device.errors %}
+                    	<div class="text-danger small mt-1">
+                        {% for error in form.pose_device.errors %}
+                        	{{ error }}
+                        {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group text-right">
+                    <label for="{{ form.mobile_payment.id_for_label }}">کارت به کارت</label>
+                    {{ form.mobile_payment|add_class:"form-control form-control-lg floating-input"  }}
+                    {% if form.mobile_payment.errors %}
+                    	<div class="text-danger small mt-1">
+                        {% for error in form.mobile_payment.errors %}
+                        	{{ error }}
+                        {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group text-right">
+                    <label for="{{ form.result.id_for_label }}">مجموع</label>
+                    {{ form.result|add_class:"form-control form-control-lg floating-input"  }}
+                    {% if form.result.errors %}
+                    	<div class="text-danger small mt-1">
+                        {% for error in form.result.errors %}
+                        	{{ error }}
+                        {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <button type="submit" class="btn btn-custom w-100 mt-3" style="background-color: #768578 !important; font-weight: bold;">ثبت فروش امروز</button>
+            </form>
+</div>
+
+{% endblock %}
+
+
+
+
+
+

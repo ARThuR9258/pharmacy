@@ -63,6 +63,7 @@
     <p>وضعیت تأیید: {% if user.is_verified %}تأیید شده{% else %}تأیید نشده{% endif %}</p>
     <p>داروهای ثبت شده: {{ medicine_count }}</p>
     <p>داروهایی که 6 ماه به انقضاء دارند: {{ expiring_soon }}</p>
+    <p>تعداد فروش (روز) ثبت شده تا این لحظه:  {{ day_sales_count }}</p>
 
     <div class="countdown" id="countdown">
         روزهای باقی‌مانده تا پایان اشتراک: <span id="days">محاسبه...</span>

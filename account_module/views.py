@@ -14,6 +14,7 @@ from django.views.generic import CreateView, UpdateView
 from django.contrib import messages
 from django import forms
 
+from daysale_module.models import DailySale
 from index_module.models import Drugs
 from . import forms
 from .forms import SignUpForm, PasswordResetForm, VerifyCodeForm, ResetPasswordForm, RegistrationVerifyCodeForm
@@ -189,7 +190,8 @@ class UserPanelView(LoginRequiredMixin,View):
     def get(self,request,*args,**kwargs):
         context={
         'medicine_count':Drugs.objects.filter(user=self.request.user).count(),
-        'expiring_soon': self.get_queryset().count()
+        'expiring_soon': self.get_queryset().count(),
+        'day_sales_count': DailySale.objects.filter(user=self.request.user).count(),
         }
         return render(request ,self.template_name,context)
 

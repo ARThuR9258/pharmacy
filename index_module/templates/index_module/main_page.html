@@ -144,22 +144,11 @@
                 <button type="submit" class="btn btn-custom w-100 mt-3" style="background-color: #768578 !important; font-weight: bold;">اضافه کردن دارو</button>
             </form>
 </div>
-<script>
-        document.addEventListener('DOMContentLoaded', function() {
-            flatpickr('#expiration-date-input', {
-                dateFormat: 'Y/m', // فرمت فقط سال و ماه (مثلاً 2025/10)
-                maxDate: '2100-12', // حداکثر سال مجاز
-                minDate: '1900-01', // حداقل سال مجاز
-                disableMobile: true, // غیرفعال کردن نسخه موبایل برای کنترل بهتر
-                onChange: function(selectedDates, dateStr, instance) {
-                    if (selectedDates.length > 0) {
-                        const date = selectedDates[0];
-                        const year = date.getFullYear();
-                        const month = String(date.getMonth() + 1).padStart(2, '0');
-                        instance.setDate(`${year}/${month}`, true); // اجبار به فرمت Y/m
-                    }
-                }
-            });
-        });
-    </script>
+
 {% endblock %}
+
+
+
+
+
+
