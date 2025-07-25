@@ -47,10 +47,10 @@ INSTALLED_APPS = [
     'Sms'
 ]
 
-JALALI_DATE_DEFAULTS = {
-    'StrftimeDate': '%y/%m/%d',
-    'StaticUrl': '/static/jalali_date/',
-}
+# JALALI_DATE_DEFAULTS = {
+#     'StrftimeDate': '%y/%m/%d',
+#     'StaticUrl': '/static/jalali_date/',
+# }
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

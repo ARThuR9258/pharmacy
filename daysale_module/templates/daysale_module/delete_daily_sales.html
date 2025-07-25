@@ -1,11 +1,11 @@
 {% extends 'shared/base.html' %}
-{% block title %}حذف دارو{% endblock %}
+{% block title %}حذف فروش{% endblock %}
 {% block content %}
 <style>
     .container {
         max-width: 600px;
         margin: 20px auto;
-        background-color: rgba(138, 211, 138, 0.6);
+        background-color: rgba(165, 225, 222, 0.6);
         padding: 20px;
         border-radius: 8px;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -55,14 +55,14 @@
 </style>
 
 <div class="container">
-    <h2 class="form-title">حذف دارو</h2>
+    <h2 class="form-title">حذف فروش</h2>
     <form method="POST" class="delete-form">
         {% csrf_token %}
         <div class="delete-text">
-            آیا مطمئن هستید که می‌خواهید دارو "{{ object.name }}" را حذف کنید؟
+            آیا مطمئن هستید که می‌خواهید فروش "{{ object.date }}" را حذف کنید؟
         </div>
         <button type="submit" class="btn btn-primary">بله</button>
-        <a href="{% url 'search_drug' %}" class="btn btn-secondary">خیر</a>
+        <a href="{% url 'search_sale' %}" class="btn btn-secondary">خیر</a>
     </form>
 </div>
 {% endblock %}

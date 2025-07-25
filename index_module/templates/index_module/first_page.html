@@ -3,28 +3,28 @@
 {% block title %}خوش‌آمدید به مدیریت انبار داروخانه{% endblock %}
 {% block content %}
 <div class="container mt-5">
-    <div class="card p-5 shadow-lg border-0 text-center" style="max-width: 600px; margin: 0 auto; background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(230, 240, 245, 0.85)); border-radius: 20px; transition: transform 0.3s ease;">
-        <h1 class="mb-4" style="font-size: 2.5rem; font-weight: 700; color: #2c3e50; text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);">خوش‌آمدید به مدیریت داروخانه</h1>
-        <p class="mb-5" style="font-size: 1.2rem; color: #7f8c8d;">لطفاً یکی از گزینه‌های زیر را انتخاب کنید:</p>
+    <div class="card p-5 shadow-lg border-0 text-center" style="max-width: 600px; margin: 0 auto; background: linear-gradient(135deg, rgba(194,234,202,0.95), rgba(201,224,234,0.85)); border-radius: 20px; transition: transform 0.3s ease;">
+        <h1 class="mb-4" style="font-size: 2.5rem; font-weight: 700; color: #000000; text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);">خوش‌آمدید به مدیریت داروخانه</h1>
+        <p class="mb-5" style="font-size: 1.2rem; color: #000000;">لطفاً یکی از گزینه‌های زیر را انتخاب کنید:</p>
 
         <div class="d-grid gap-3">
-            <a href="{% url 'user_panel_page' %}" class="btn custom-btn-lg" style="background: #74c583; color: #050505; border: none; border-radius: 12px; padding: 12px 25px; font-size: 1.2rem;transition: all 0.3s ease;">
+            <a href="{% url 'user_panel_page' %}" class="btn custom-btn-lg" style="background: #e3dede; color: #050505; border: none; border-radius: 12px; padding: 12px 25px; font-size: 1.2rem;transition: all 0.3s ease;">
                 <i class="fas fa-user me-2"></i>پنل کاربری
             </a>
-            <a href="{% url 'search_drug' %}" class="btn custom-btn-lg" style="background: #74c583; color: #000000; border: none; border-radius: 12px; padding: 12px 25px; font-size: 1.2rem;transition: all 0.3s ease;">
+            <a href="{% url 'search_drug' %}" class="btn custom-btn-lg" style="background: #d5d1d1; color: #000000; border: none; border-radius: 12px; padding: 12px 25px; font-size: 1.2rem;transition: all 0.3s ease;">
                 <i class="fas fa-search me-2"></i>جستجوی دارو
             </a>
-            <a href="{% url 'add_drug' %}" class="btn custom-btn-lg" style="background: #74c583; color: #050505; border: none; border-radius: 12px; padding: 12px 25px; font-size: 1.2rem;transition: all 0.3s ease;">
+            <a href="{% url 'add_drug' %}" class="btn custom-btn-lg" style="background: #e3dede; color: #050505; border: none; border-radius: 12px; padding: 12px 25px; font-size: 1.2rem;transition: all 0.3s ease;">
                 <i class="fas fa-plus-circle me-2"></i>اضافه کردن دارو
             </a>
-            <a href="{% url 'expired-drugs' %}" class="btn custom-btn-lg" style="background: #74c583; color: #050505; border: none; border-radius: 12px; padding: 12px 25px; font-size: 1.2rem;transition: all 0.3s ease;">
+            <a href="{% url 'expired-drugs' %}" class="btn custom-btn-lg" style="background: #d5d1d1;  border: none; border-radius: 12px; padding: 12px 25px; font-size: 1.2rem;transition: all 0.3s ease;">
                 <i class="fas fa-exclamation-triangle me-2"></i>داروهای انقضا نزدیک
             </a>
 
-            <a href="{% url 'submit_day_sale' %}" class="btn custom-btn-lg" style="background: #74c583; color: #020202; border: none; border-radius: 12px; padding: 12px 25px; font-size: 1.2rem;transition: all 0.3s ease;">
+            <a href="{% url 'submit_day_sale' %}" class="btn custom-btn-lg" style="background: #e3dede; color: #020202; border: none; border-radius: 12px; padding: 12px 25px; font-size: 1.2rem;transition: all 0.3s ease;">
                 <i class="fas fa-user me-2"></i>ثبت فروش امروز
             </a>
-            <a href="{% url 'search_sale' %}" class="btn custom-btn-lg" style="background: #74c583; color: #000000; border: none; border-radius: 12px; padding: 12px 25px; font-size: 1.2rem;transition: all 0.3s ease;">
+            <a href="{% url 'search_sale' %}" class="btn custom-btn-lg" style="background: #d5d1d1; color: #000000; border: none; border-radius: 12px; padding: 12px 25px; font-size: 1.2rem;transition: all 0.3s ease;">
                 <i class="fas fa-user me-2"></i>مشاهده فروش داروخانه
             </a>
         </div>

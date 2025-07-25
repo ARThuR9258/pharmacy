@@ -29,7 +29,7 @@ class SearchDrugView(LoginRequiredMixin, ListView):
     model = Drugs
     template_name = 'index_module/search_medicine.html'
     context_object_name = 'medicines'
-    paginate_by = 5
+    paginate_by = 20
 
     def get_queryset(self):
         query = self.request.GET.get('medicine_name', '')

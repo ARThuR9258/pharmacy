@@ -68,7 +68,7 @@
         margin: 0 5px;
         text-decoration: none;
         color: #ffffff;
-        background-color: #38a169;
+        background-color: #060706;
         border-radius: 3px;
     }
 
@@ -120,12 +120,12 @@
         <form method="get">
             <div>
                 <input type="text" name="medicine_name" placeholder="جستجوی دارو..." value="{{ search_query }}" style="padding: 10px; border: 1px solid #ddd; border-radius: 5px; flex: 1;">
-                <button type="submit" style="background: #577157; border: none; padding: 10px 20px; border-radius: 5px; color: #ffffff; transition: all 0.3s ease;">جستجو</button>
+                <button type="submit" style="background-color: rgba(138, 211, 138, 0.6); border: none;font-weight: bold;font-size: 20px; padding: 10px 20px; border-radius: 5px; color: #000000; transition: all 0.3s ease;">جستجو</button>
             </div>
         </form>
-
+        <br>
         <!-- لینک اضافه کردن دارو جدید -->
-        <a href="{% url 'add_drug' %}" style="background: #577157; border: none; padding: 10px 20px; border-radius: 5px; color: #ffffff; text-decoration: none; transition: all 0.3s ease; display: block; margin-bottom: 20px;">اضافه کردن دارو جدید</a>
+        <a href="{% url 'add_drug' %}" style="background-color: rgba(138, 211, 138, 0.6); border: none; padding: 10px 20px; border-radius: 5px; color: #0b0b0b; text-decoration: none;font-weight: bold;font-size: 20px; transition: all 0.3s ease; display: block; margin-bottom: 20px;">اضافه کردن دارو جدید</a>
 
         <!-- پیام عدم وجود دارو -->
         {% if is_empty %}

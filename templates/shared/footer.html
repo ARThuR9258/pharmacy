@@ -1,77 +1,61 @@
-<style>footer {
-    font-size: 0.7em;
-    padding: 10px;
-    background-color: #2c2f33;
-    color: #ffffff;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-footer h5 {
-    margin-bottom: 5px;
-}
-
-footer ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-footer li a {
-    color: #ffffff;
-    text-decoration: none;
-}
-
-footer p {
-    margin: 2px 0;
-}
-
-footer .copyright {
-    margin: 5px 0;
-    font-size: 0.8em;
-}
-
-/* برای اطمینان از اینکه محتوا زیر فوتر نره */
-body {
-    min-height: 100vh;
-    margin: 0;
-    padding-bottom: 60px; /* ارتفاع تقریبی فوتر */
-}
-
-html {
-    position: relative;
-    min-height: 100%;
-}</style>
-
-<footer>
-    <div>
-        <h5>داروکده</h5>
+<footer class="footer-custom bg-light text-dark mt-5 py-4" style="direction: rtl;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <h5>اطلاعات تماس</h5>
+                <p>
+                    <i class="fas fa-map-marker-alt me-2"></i> تهران، خیابان انقلاب، خیابان قدس
+                    <br>
+                    <i class="fas fa-phone me-2"></i> تلفن: 021-12345678
+                    <br>
+                    <i class="fas fa-envelope me-2"></i> ایمیل: info@pharmacy.com
+                </p>
+            </div>
+            <div class="col-md-4 mb-3">
+                <h5>لینک‌های مفید</h5>
+                <ul class="list-unstyled">
+                    <li><a href="{% url 'user_panel_page' %}" class="text-dark">پنل کاربری</a></li>
+                    <li><a href="{% url 'search_drug' %}" class="text-dark">جستجوی دارو</a></li>
+                    <li><a href="{% url 'add_drug' %}" class="text-dark">اضافه کردن دارو</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4 mb-3">
+                <h5>شبکه‌های اجتماعی</h5>
+                <a href="https://facebook.com" target="_blank" class="text-dark me-3"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://twitter.com" target="_blank" class="text-dark me-3"><i class="fab fa-twitter"></i></a>
+                <a href="https://instagram.com" target="_blank" class="text-dark"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+        <hr>
+        <div class="text-center">
+            <p>© {{ current_year }} داروخانه آنلاین - تمامی حقوق محفوظ است.</p>
+        </div>
     </div>
-    <div>
-        <h5>لینک‌ها</h5>
-        <ul>
-            <li><a href="#">خانه</a></li>
-            <li><a href="#">محصولات</a></li>
-            <li><a href="#">درباره ما</a></li>
-        </ul>
-    </div>
-    <div>
-        <h5>خدمات</h5>
-        <ul>
-            <li><a href="#">پشتیبانی</a></li>
-            <li><a href="#">سوالات متداول</a></li>
-        </ul>
-    </div>
-    <div>
-        <h5>تماس با ما</h5>
-        <p>info@darukode.com</p>
-        <p>+98 912 345 6789</p>
-        <p>تهران، ایران</p>
-    </div>
-    <p class="copyright">© 2025 داروکده | طراحی شده در 6 ژوئیه 2025، 05:18 PM BST</p>
 </footer>
+
+<style>
+    .footer-custom {
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    }
+    .footer-custom h5 {
+        font-weight: bold;
+        color: #74c583;
+    }
+    .footer-custom a {
+        transition: color 0.3s ease;
+    }
+    .footer-custom a:hover {
+        color: #45a049 !important;
+        text-decoration: none;
+    }
+    .footer-custom .fab {
+        font-size: 1.5rem;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const currentYear = new Date().getFullYear();
+        document.querySelector('.footer-custom .text-center p').innerHTML = `© ${currentYear} داروخانه آنلاین - تمامی حقوق محفوظ است.`;
+    });
+</script>
